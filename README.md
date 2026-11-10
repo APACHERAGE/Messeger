@@ -34,6 +34,15 @@ Profile details include display name, first/last name, username, role, status, b
 
 Settings include notifications and quiet hours, messaging, appearance, accessibility, export, blocked accounts, and storage controls. Changes apply after Save changes; unsaved changes can be discarded. Account caches are isolated. Profile exports include hidden fields. Two-step verification and device-session management are not implemented; password recovery is available from sign-in.
 
+## Mobile and PWA support
+
+Nightfall includes a responsive mobile layout optimized for phones (iOS/Android):
+- Persistent bottom navigation bar (`.mobile-nav`) on screens ≤760 px for switching between Home, Messages, Threads, Channels, and Contacts.
+- Chat conversation focus: opening a message thread automatically hides the bottom bar, providing full screen height for messages and keyboard input.
+- Safe-area inset support (`viewport-fit=cover`, `env(safe-area-inset-bottom)`).
+- Web App Manifest (`manifest.webmanifest`) and Apple mobile web app tags for installation via "Add to Home Screen".
+- Zero horizontal overflow verified across narrow viewports (390×844 and 320×568).
+
 ## Validation and architecture
 
 ```bash

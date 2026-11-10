@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const output = path.join(project, 'web-preview', 'dist')
 // Deliberate allowlist. Never copy public/ or the workspace wholesale.
-for (const asset of ['favicon.svg']) {
+for (const asset of ['favicon.svg', 'manifest.webmanifest']) {
   await copyFile(path.join(project, 'public', asset), path.join(output, asset))
 }
 const forbiddenName = /(^|\/)(\.env(?:\..*)?|node_modules|backend|\.git|\.codex|\.agents|\.vscode|credentials?)(\/|$)|\.(?:map|pem|key|p12|pfx|db|sqlite|sqlite3|jar|java|properties|log|zip)$/i
@@ -27,7 +27,7 @@ async function listFiles(directory, prefix = '') {
   return files
 }
 const files = await listFiles(output)
-const allowed = /^(?:index\.html|favicon\.svg|assets\/[A-Za-z0-9_-]+\.(?:js|css))$/
+const allowed = /^(?:index\.html|favicon\.svg|manifest\.webmanifest|assets\/[A-Za-z0-9_-]+\.(?:js|css))$/
 for (const relative of files) {
   if (!allowed.test(relative) || forbiddenName.test(relative)) throw new Error('Unexpected file in public output: ' + relative)
   if (/\.(?:html|js|css|svg)$/.test(relative)) {

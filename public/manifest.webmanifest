@@ -1,0 +1,18 @@
+{
+  "name": "Nightfall Messenger",
+  "short_name": "Nightfall",
+  "description": "Developer community for DevOps, programming, technical channels, discussions, and messaging.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a100e",
+  "theme_color": "#0b1016",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

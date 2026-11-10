@@ -104,11 +104,19 @@ Source rollback archive:
   - Feed posts & comments (`FeedController`, `HubController`, `HubCommentRepository`)
 - Verified: `scripts/check-profile-api.py` asserts that limit parameters are enforced without changing response schemas.
 
+### T3.3 & PWA — documentation and installability polish
+
+- `CHANGELOG.md`: created comprehensive changelog for v1.0.0 detailing security fixes, mobile UX improvements, validation changes, and deployment options.
+- `public/manifest.webmanifest` & `index.html`: added Web App Manifest, Apple mobile web app metadata, and touch icons for "Add to Home Screen" support on iOS/Android.
+- `scripts/prepare-demo-preview.mjs`: added `manifest.webmanifest` to public allowlist and tested with `npm run build:demo`.
+- `README.md`: added mobile & PWA support details and test run documentation.
+
 ## Verification run
 
 | Command | Result |
 | --- | --- |
 | `npm run build` | pass |
+| `npm run build:demo` | pass (includes manifest.webmanifest and favicon) |
 | `npm test` | pass (api, account, posts, social, appearance, channels, navigation) |
 | `cd backend && mvn -q test` | pass (17/17 integration tests) |
 | `python3 scripts/check-profile-api.py` | pass |
