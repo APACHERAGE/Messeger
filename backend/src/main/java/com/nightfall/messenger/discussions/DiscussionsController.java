@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,6 +92,7 @@ public class DiscussionsController {
     @RequestParam(defaultValue = "active") String sort,
     @RequestParam(defaultValue = "") String tag,
     @RequestParam(defaultValue = "false") boolean savedOnly,
+    @RequestParam(defaultValue = "100") int limit,
     @AuthenticationPrincipal AuthUserEntity user
   ) {
     String needle = query.trim().toLowerCase(Locale.ROOT);
@@ -104,7 +106,8 @@ public class DiscussionsController {
         .thenComparing(ThreadSummary::updatedAt, Comparator.reverseOrder());
       default -> throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown sort order.");
     };
-    return threads.findAllByOrderByCreatedAtDesc().stream()
+    int size = Math.max(1, Math.min(limit, 200));
+    return threads.findAllByOrderByCreatedAtDesc(PageRequest.of(0, size)).stream()
       .filter(thread -> !savedOnly || savedThreadIds.contains(thread.id))
       .map(thread -> summary(thread, savedThreadIds.contains(thread.id)))
       .filter(thread -> requestedTag.isEmpty()
@@ -121,9 +124,14 @@ public class DiscussionsController {
 
   @GetMapping("/{threadId}")
   @Transactional(readOnly = true)
-  public ThreadDetail get(@PathVariable String threadId, @AuthenticationPrincipal AuthUserEntity user) {
+  public ThreadDetail get(
+    @PathVariable String threadId,
+    @RequestParam(defaultValue = "500") int limit,
+    @AuthenticationPrincipal AuthUserEntity user
+  ) {
     DiscussionThreadEntity thread = findThread(threadId);
-    List<DiscussionComment> threadComments = comments.findByThreadIdOrderByCreatedAtAscIdAsc(threadId).stream()
+    int size = Math.max(1, Math.min(limit, 500));
+    List<DiscussionComment> threadComments = comments.findByThreadIdOrderByCreatedAtAscIdAsc(threadId, PageRequest.of(0, size)).stream()
       .map(this::comment)
       .toList();
     return new ThreadDetail(summary(thread, isSaved(threadId, user.id)), threadComments);

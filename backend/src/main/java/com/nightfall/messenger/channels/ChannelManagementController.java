@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.Instant;
 import java.util.List;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,10 +45,15 @@ public class ChannelManagementController {
 
   @GetMapping("/subscribers")
   @Transactional(readOnly=true)
-  public List<Subscriber> subscribers(@PathVariable String channelId, @AuthenticationPrincipal AuthUserEntity user) {
+  public List<Subscriber> subscribers(
+    @PathVariable String channelId,
+    @RequestParam(defaultValue = "200") int limit,
+    @AuthenticationPrincipal AuthUserEntity user
+  ) {
     // This directory is deliberately owner-only.
     if (!access.read(channelId).ownerId.equals(user.id)) throw new ResponseStatusException(HttpStatus.FORBIDDEN,"Only the channel owner can view subscribers.");
-    return follows.findByChannelId(channelId).stream().map(f -> users.findById(f.userId).orElse(null)).filter(u -> u!=null).map(u -> new Subscriber(u.id,identity.name(u),u.username)).toList();
+    int size = Math.max(1, Math.min(limit, 500));
+    return follows.findByChannelId(channelId, PageRequest.of(0, size)).stream().map(f -> users.findById(f.userId).orElse(null)).filter(u -> u!=null).map(u -> new Subscriber(u.id,identity.name(u),u.username)).toList();
   }
 
   @PostMapping("/transfer")

@@ -2,11 +2,14 @@ package com.nightfall.messenger.channels;
 
 import java.util.Collection;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChannelFollowRepository extends JpaRepository<ChannelFollowEntity, String> {
   List<ChannelFollowEntity> findByUserId(String userId);
+  List<ChannelFollowEntity> findByUserId(String userId, Pageable pageable);
   List<ChannelFollowEntity> findByChannelId(String channelId);
+  List<ChannelFollowEntity> findByChannelId(String channelId, Pageable pageable);
   void deleteByChannelId(String channelId);
   long countByChannelId(String channelId);
   void deleteByIdAndUserId(String id, String userId);

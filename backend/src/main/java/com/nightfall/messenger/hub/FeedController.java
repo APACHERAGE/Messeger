@@ -22,14 +22,14 @@ public class FeedController {
  public List<Entry> feed(@RequestParam(defaultValue="for-you") String tab,@AuthenticationPrincipal AuthUserEntity user){
   if(!Set.of("for-you","following").contains(tab))throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Unknown feed tab.");
   Set<String> friends=social.friendIds(user.id),followed=new HashSet<>();
-  follows.findByUserId(user.id).forEach(link->followed.add(link.targetUserId));
+  follows.findByUserId(user.id,PageRequest.of(0,200)).forEach(link->followed.add(link.targetUserId));
   Set<String> ids=new HashSet<>(friends);ids.addAll(followed);ids.add(user.id);
   List<Entry> timeline=new ArrayList<>();
   for(var post:posts.findTimeline(ids,PageRequest.of(0,100)))if(access.read(post,user.id)){
    var view=presenter.view(post,user.id);String reason=post.authorId.equals(user.id)?"you":friends.contains(access.owner(post))?"friend":"following";
    timeline.add(new Entry(post.id,"post",reason,post.createdAt,view,null));
   }
-  for(var link:channelFollows.findByUserId(user.id))channels.findById(link.channelId).ifPresent(channel->{
+  for(var link:channelFollows.findByUserId(user.id,PageRequest.of(0,100)))channels.findById(link.channelId).ifPresent(channel->{
    for(var post:channelPosts.findTop30ByChannelIdOrderByCreatedAtDesc(channel.id))if(!social.blocked(user.id,post.authorId))timeline.add(new Entry("channel:"+post.id,"channel","channel",post.createdAt,null,new ChannelItem(channel.id,channel.title,channel.handle,post.id,post.body,post.createdAt,post.link)));
   });
   timeline.sort(Comparator.comparing(Entry::createdAt).reversed());

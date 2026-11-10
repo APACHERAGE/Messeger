@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Size;
 import java.time.Instant;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.CacheControl;
@@ -196,9 +197,14 @@ public class HubController {
 
   @GetMapping("/posts/{postId}/comments")
   @Transactional(readOnly = true)
-  public List<HubComment> listComments(@PathVariable String postId, @AuthenticationPrincipal AuthUserEntity user) {
+  public List<HubComment> listComments(
+    @PathVariable String postId,
+    @RequestParam(defaultValue = "500") int limit,
+    @AuthenticationPrincipal AuthUserEntity user
+  ) {
     visiblePost(postId, user);
-    return comments.findByPostIdOrderByCreatedAtAscIdAsc(postId).stream()
+    int size = Math.max(1, Math.min(limit, 500));
+    return comments.findByPostIdOrderByCreatedAtAscIdAsc(postId, PageRequest.of(0, size)).stream()
       .map(this::comment)
       .toList();
   }

@@ -185,6 +185,8 @@ input:focus-visible, textarea:focus-visible, select:focus-visible { border-color
 .loading-copy { color: var(--muted); font-size: 12px; text-align: center; padding: 35px 12px; }
 .app-footer { display: flex; justify-content: space-between; align-items: center; gap: 15px; color: var(--nf-8a8b83, #8a8b83); font: 7px var(--mono); letter-spacing: 1.2px; }
 .app-footer i { color: var(--red); font-style: normal; margin-inline: 8px; }
+.mobile-nav { display: none; }
+.mobile-nav.is-hidden { display: none !important; }
 .toast { position: fixed; bottom: 55px; left: 50%; transform: translateX(-50%); z-index: 100; display: flex; align-items: center; justify-content: space-between; gap: 12px; width: max-content; max-width: calc(100vw - 32px); padding: 9px 10px 9px 17px; background: var(--nf-292820, #292820); color: var(--paper); border: 1px solid var(--gold); border-radius: 7px; box-shadow: 0 10px 40px #0009; font-size: 12px; }
 .modal-backdrop, .account-backdrop { position: fixed; inset: 0; z-index: 40; background: color-mix(in srgb, var(--nf-05090d, #05090d) 78.82%, transparent); backdrop-filter: blur(7px); }
 .modal-backdrop { display: flex; align-items: center; justify-content: center; padding: 20px; }
@@ -293,7 +295,12 @@ input:focus-visible, textarea:focus-visible, select:focus-visible { border-color
   .session-badge { font-size: 9px; }
 }
 @media (max-width: 760px) {
-  .app-shell { min-height: 0; padding: 0; grid-template-rows: 70px minmax(0, 1fr); }
+  .app-shell { min-height: 0; padding: 0; grid-template-rows: 70px minmax(0, 1fr) auto; }
+  .app-shell:has(.conversation-view.mobile-chat-open) { grid-template-rows: 70px minmax(0, 1fr); }
+  .mobile-nav { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; padding: 6px 6px max(8px, env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--nf-0e151d, #0e151d) 96%, transparent); border-top: 1px solid var(--line); backdrop-filter: blur(12px); -webkit-user-select: none; user-select: none; }
+  .mobile-nav button { display: grid; justify-items: center; align-content: center; gap: 3px; min-height: 48px; padding: 4px 2px; color: var(--subtle); background: transparent; border: 0; font: 8px var(--mono); letter-spacing: .3px; cursor: pointer; transition: color .15s ease; }
+  .mobile-nav button.active { color: var(--gold); }
+  .mobile-nav button:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
   .masthead { padding-inline: 13px; border-bottom: 1px solid var(--line); gap: 6px; }
   .wordmark { gap: 4px; min-width: 0; }
   .wordmark > div { min-width: 0; }

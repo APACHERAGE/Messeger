@@ -162,6 +162,7 @@ public class ChatController {
     return visible.values().stream()
       .map(chat -> summary(chat, user))
       .sorted(Comparator.comparing(ChatSummary::pinned).reversed().thenComparing(ChatSummary::name, String.CASE_INSENSITIVE_ORDER))
+      .limit(300)
       .toList();
   }
 

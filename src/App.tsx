@@ -578,6 +578,13 @@ export default function App() {
       </>}
       </Suspense>
     </div>
+    <nav className={`mobile-nav ${view === 'chats' && mobileChatOpen ? 'is-hidden' : ''}`} aria-label="Main navigation">
+      <button type="button" className={view === 'home' || view === 'account' ? 'active' : ''} aria-current={view === 'home' || view === 'account' ? 'page' : undefined} onClick={() => { setView('home'); setMobileChatOpen(false) }}><Home size={19} /><span>Home</span></button>
+      <button type="button" className={view === 'chats' ? 'active' : ''} aria-current={view === 'chats' ? 'page' : undefined} onClick={() => { setView('chats'); setActiveTab('All'); setMobileChatOpen(false) }}><MessageCircle size={19} /><span>Messages</span></button>
+      <button type="button" className={view === 'discussions' ? 'active' : ''} aria-current={view === 'discussions' ? 'page' : undefined} onClick={() => { setView('discussions'); setMobileChatOpen(false) }}><MessageSquareText size={19} /><span>Threads</span></button>
+      <button type="button" className={view === 'channels' ? 'active' : ''} aria-current={view === 'channels' ? 'page' : undefined} onClick={() => { setView('channels'); setMobileChatOpen(false) }}><Radio size={19} /><span>Channels</span></button>
+      <button type="button" className={view === 'contacts' ? 'active' : ''} aria-current={view === 'contacts' ? 'page' : undefined} onClick={() => { setView('contacts'); setMobileChatOpen(false) }}><ContactRound size={19} /><span>Contacts</span></button>
+    </nav>
     <footer className="app-footer"><span>NIGHTFALL DEV BOARD</span><span>DEVOPS / PROGRAMMING / OPEN DISCUSSION <i>✦</i> SYSTEM ONLINE</span></footer>
     {notice && <div className="toast" role="status">{notice}<button className="icon-button" aria-label="Dismiss notification" onClick={() => setNotice('')}><X size={16} /></button></div>}
     {commandOpen && <CommandCenter onClose={() => setCommandOpen(false)} onExecute={runAppCommand} />}

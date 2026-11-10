@@ -90,9 +90,13 @@ public class ChannelsController {
 
   @GetMapping
   @Transactional(readOnly = true)
-  public List<ChannelSummary> list(@AuthenticationPrincipal AuthUserEntity user) {
+  public List<ChannelSummary> list(
+    @RequestParam(defaultValue = "100") int limit,
+    @AuthenticationPrincipal AuthUserEntity user
+  ) {
     var followed = follows.findByUserId(user.id).stream().map(follow -> follow.channelId).collect(java.util.stream.Collectors.toSet());
-    List<ChannelEntity> allChannels = channels.findAllByOrderByCreatedAtDesc();
+    int size = Math.max(1, Math.min(limit, 200));
+    List<ChannelEntity> allChannels = channels.findAllByOrderByCreatedAtDesc(PageRequest.of(0, size));
     var owners = users.findAllById(allChannels.stream().map(channel -> channel.ownerId).distinct().toList()).stream()
       .collect(java.util.stream.Collectors.toMap(owner -> owner.id, owner -> owner));
     var followerCounts = follows.countByChannelIds(allChannels.stream().map(channel -> channel.id).toList()).stream()

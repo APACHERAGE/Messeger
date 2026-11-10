@@ -82,6 +82,7 @@ try:
     assert person['githubProjects']==[]
     assert person['displayName']=='PublicAlias'
     assert len(req(bob, '/api/people?query=PublicAlias')) == 1, 'Public display name must be searchable'
+    assert len(req(bob, '/api/people?limit=1')) == 1, 'People search ignored its limit'
     assert req(bob, '/api/people?query=HiddenFirst')==[], 'Hidden legal name must not be searchable'
     profile['visibility']={key:True for key in profile['visibility']}
     req(alice, '/api/profile', profile, 'PUT')
@@ -199,6 +200,7 @@ try:
     req(alice,'/api/people/'+charlie_id+'/block',None,'DELETE')
     # Channel discussion and ownership form a separate domain from personal walls.
     studio=req(alice,'/api/channels',{'title':'QA channel studio','description':'Owner tools'})
+    assert len(req(charlie,'/api/channels?limit=1'))==1, 'Channel directory ignored its limit'
     studio_id=studio['id']; cp='/api/channels/'+studio_id
     update=req(alice,cp+'/posts',{'body':'An owner announcement'})
     pp=cp+'/posts/'+update['id']; discussion=pp+'/comments'
@@ -256,6 +258,7 @@ try:
     expect_error(400,lambda:req(alice,cp+'/transfer',{'newOwnerId':bob_id}),'Ownership transferred to a non-subscriber')
     req(bob,cp+'/follow',{})
     assert any(u['id']==bob_id for u in req(alice,cp+'/subscribers'))
+    assert len(req(alice,cp+'/subscribers?limit=1'))==1, 'Subscriber directory ignored its limit'
     expect_error(403,lambda:req(charlie,cp+'/transfer',{'newOwnerId':bob_id}),'Viewer transferred channel')
     expect_error(400,lambda:req(alice,cp+'/transfer',{'newOwnerId':alice_id}),'Self-transfer accepted')
     req(alice,cp+'/transfer',{'newOwnerId':bob_id})
@@ -277,6 +280,12 @@ try:
     expect_error(404,lambda:req(alice,cp),'Deleted channel remained available')
     expect_error(404,lambda:req(charlie,discussion),'Deleted channel discussion remained available')
     assert not any(c['id']==studio_id for c in req(charlie,'/api/channels'))
+    # Discussion reads are bounded without changing their response shapes.
+    thread=req(alice,'/api/discussions',{'title':'Limit check','body':'Bounded reads','tags':['qa']})
+    req(alice,'/api/discussions',{'title':'Second limit check','body':'Two threads exist','tags':[]})
+    for n in range(3): req(alice,'/api/discussions/'+thread['id']+'/comments',{'body':'Comment '+str(n)})
+    assert len(req(alice,'/api/discussions?limit=1'))==1, 'Discussion list ignored its limit'
+    assert len(req(alice,'/api/discussions/'+thread['id']+'?limit=2')['comments'])==2, 'Thread detail ignored its limit'
     # Appearance choices survive the API, including all forty preset palettes.
     palette_ids=re.findall(r"\['([a-z]+)','[^']+','#[0-9a-f]{6}','#[0-9a-f]{6}'\]",(root/'src/appearance.ts').read_text())
     assert len(palette_ids)==40

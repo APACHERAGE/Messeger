@@ -45,7 +45,7 @@ public class ModerationController {
 
   @GetMapping("/blocked")
   public List<String> blocked(@AuthenticationPrincipal AuthUserEntity user) {
-    return blocks.findByOwnerId(user.id).stream().map(block -> block.blockedUserId).toList();
+    return blocks.findByOwnerId(user.id).stream().map(block -> block.blockedUserId).limit(500).toList();
   }
 
   @PostMapping("/{id}/block")
