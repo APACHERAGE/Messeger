@@ -1,0 +1,39 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Nightfall: dev",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"dev",
+				"--",
+				"--host",
+				"127.0.0.1",
+				"--port",
+				"5173",
+				"--strictPort"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Nightfall: public link",
+			"type": "shell",
+			"command": "/tmp/vscode-agent-codex-sandbox-Ckhycl/cloudflared",
+			"args": [
+				"tunnel",
+				"--url",
+				"http://127.0.0.1:5173",
+				"--http-host-header",
+				"localhost",
+				"--protocol",
+				"http2",
+				"--no-autoupdate"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

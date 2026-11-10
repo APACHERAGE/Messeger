@@ -1,0 +1,25 @@
+.user-wall { min-width: 0; margin: 30px auto 0; color: var(--nf-d2dfc9, #d2dfc9); }
+.wall-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 20px; }
+.wall-heading > div > span { color: var(--nf-71896b, #71896b); font: 8px var(--mono); letter-spacing: 1.5px; }
+.wall-heading h2 { margin: 7px 0 0; font: 500 24px Inter,system-ui,sans-serif; color: var(--nf-dce8d2, #dce8d2); letter-spacing: -.6px; }
+.wall-audience { display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; color: var(--nf-b3cb9d, #b3cb9d); border: 1px solid color-mix(in srgb, var(--nf-8daa6c, #8daa6c) 18.82%, transparent); border-radius: 5px; background: color-mix(in srgb, var(--nf-20331d, #20331d) 18.82%, transparent); font-size: 10px; }
+.user-wall .hub-composer { margin-bottom: 22px; padding: 20px; border-radius: 9px; }
+.user-wall .hub-post { border-radius: 9px; }
+.user-wall .hub-composer-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.user-wall .hub-composer-heading > span { color: var(--nf-a2b790, #a2b790); font-size: 10px; }
+.user-wall .hub-composer-heading > span svg { vertical-align: middle; margin-right: 5px; }
+.user-wall .hub-composer label { font-size: 14px; }
+.user-wall .hub-composer textarea { font-size: 13px; min-height: 100px; }
+.user-wall .hub-composer-tools { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 0; }
+.user-wall .hub-composer-tools > span { margin-right: auto; color: var(--nf-879e7d, #879e7d); font-size: 11px; }
+.user-wall .hub-composer-tools > button { display: inline-flex; align-items: center; gap: 7px; padding: 9px 12px; color: var(--nf-bbd9a6, #bbd9a6); background: var(--nf-1a2a1d, #1a2a1d); border: 1px solid var(--nf-3a5134, #3a5134); border-radius: 5px; font-size: 11px; }
+.user-wall .hub-composer-footer > button { font-size: 12px; padding: 10px 15px; }
+.user-wall .hub-composer-footer > span { font-size: 10px; }
+.user-wall .hub-post-author strong { font-size: 12px; }
+.user-wall .hub-post-author > span { font-size: 10px; }
+.user-wall .hub-post-body { color: var(--nf-c2d4b9, #c2d4b9); font-size: 14px; line-height: 1.85; }
+.user-wall .hub-composer-hint button { font-size: 11px; }
+.public-profile-dialog .user-wall { padding: 0 24px 24px; }
+@media(max-width:620px) { .wall-heading h2 { font-size: 21px; } .user-wall { margin-top: 24px; } .user-wall .hub-composer { padding: 15px; } .user-wall .hub-composer > .hub-avatar { display: none; } .wall-heading > div > span { font-size: 7px; letter-spacing: .6px; } .wall-audience { padding: 6px; font-size: 9px; } }
+
+.user-wall.hub-dashboard { display:block; height:auto; overflow:visible; background:none; padding:0; }

@@ -1,0 +1,236 @@
+<div id="nightfall-directions" class="viz-carousel" aria-label="Варианты дизайна Nightfall" data-previous-label="Предыдущий" data-next-label="Следующий">
+  <section data-variant="Quiet shell" aria-label="Quiet shell">
+    <div class="nf-product nf-shell" aria-label="Nightfall — спокойный интерфейс">
+      <header class="nf-chrome"><span class="nf-brand">n<span>/</span>nightfall</span><span class="nf-chrome-path">community / workspace</span><button class="nf-command cursor-interaction" data-command>⌕ <span>Commands</span> <kbd>⌘ K</kbd></button></header>
+      <div class="nf-workspace">
+        <aside class="nf-sidebar">
+          <div class="nf-identity"><span class="nf-avatar">a</span><div>apache<small>~/workspace</small></div></div>
+          <nav class="nf-nav" aria-label="Разделы Nightfall">
+            <button class="cursor-interaction" data-section="threads" aria-pressed="true"><span>›</span> Threads <small>03</small></button>
+            <button class="cursor-interaction" data-section="channels" aria-pressed="false"><span>#</span> Channels</button>
+            <button class="cursor-interaction" data-section="messages" aria-pressed="false"><span>~</span> Messages</button>
+            <button class="cursor-interaction" data-section="saved" aria-pressed="false"><span>+</span> My space</button>
+          </nav>
+          <div class="nf-sidebar-tail"><span class="nf-eyebrow">FOLLOWING</span><p># linux</p><p># self-hosted</p><p># devops</p><div class="nf-local">○ local preview</div></div>
+        </aside>
+        <main class="nf-main">
+          <div class="nf-page-heading"><div><span class="nf-eyebrow">~/community</span><h2 data-heading>Build. Break. Figure it out.</h2><p class="nf-description">Вопросы, решения и люди, которые пишут код.</p></div><button class="nf-primary cursor-interaction" data-compose>+ New thread</button></div>
+          <div class="nf-inline-composer" hidden><label>Новая тема<input aria-label="Название новой темы" placeholder="Что хочешь разобрать?" /></label><span class="nf-muted">Предпросмотр формы</span></div>
+          <div data-panel="threads">
+            <div class="nf-feed-tools"><div class="nf-filters" aria-label="Фильтр обсуждений"><button class="cursor-interaction" data-filter="all" aria-pressed="true">Recent</button><button class="cursor-interaction" data-filter="open" aria-pressed="false">Unanswered</button><button class="cursor-interaction" data-filter="solved" aria-pressed="false">Solved</button></div><span class="nf-muted">community feed</span></div>
+            <article class="nf-thread" data-state="open"><div class="nf-thread-overline"><span># linux</span><span>mira · 12 min ago</span></div><button class="nf-thread-title cursor-interaction" data-expand aria-expanded="false">Почему контейнер не видит локальную сеть? <span>↗</span></button><p>Docker bridge, DNS и один очень упрямый timeout.</p><div class="nf-thread-bottom"><span class="nf-tag">docker</span><span class="nf-tag">networking</span><span class="nf-replies">0 replies</span></div><div class="nf-thread-detail" hidden><p>Контейнер получает IP, но запросы к локальному сервису завершаются по timeout. С чего начать проверку?</p><pre><code>docker network inspect bridge
+docker exec app cat /etc/resolv.conf</code></pre><p class="nf-muted">Проверить маршрут, DNS и адрес прослушивания сервиса.</p></div></article>
+            <article class="nf-thread" data-state="solved"><div class="nf-thread-overline"><span># self-hosted</span><span>zero · 38 min ago</span></div><button class="nf-thread-title cursor-interaction" data-expand aria-expanded="false">Бэкапы, которые действительно восстанавливаются <span>↗</span></button><p>Небольшой runbook: restic, S3 и проверка восстановления.</p><div class="nf-thread-bottom"><span class="nf-solved">✓ solved</span><span class="nf-tag">backups</span><span class="nf-replies">6 replies</span></div><div class="nf-thread-detail" hidden><p>Принятое решение: расписание бэкапов плюс отдельная проверка восстановления.</p><pre><code>restic check
+restic restore latest --target ./restore-test</code></pre></div></article>
+            <article class="nf-thread" data-state="open"><div class="nf-thread-overline"><span># devops</span><span>lena · 1 hour ago</span></div><button class="nf-thread-title cursor-interaction" data-expand aria-expanded="false">Что вы убрали из своего CI, чтобы он стал быстрее? <span>↗</span></button><p>Собираем маленькие изменения с заметным результатом.</p><div class="nf-thread-bottom"><span class="nf-tag">ci/cd</span><span class="nf-tag">discussion</span><span class="nf-replies">4 replies</span></div><div class="nf-thread-detail" hidden><p>Кэш зависимостей, параллельные задачи и запуск проверок по изменённым пакетам.</p></div></article>
+          </div>
+          <section data-panel="channels" hidden><div class="nf-feed-tools"><span>Followed channels</span><span class="nf-muted">02 channels</span></div><article class="nf-thread"><span class="nf-eyebrow"># LINUX</span><h3>Linux, без магии</h3><p>Конфиги, команды и разборы того, как всё работает.</p></article><article class="nf-thread"><span class="nf-eyebrow"># SELF-HOSTED</span><h3>Own your stack</h3><p>Домашний сервер, полезные сервисы и рабочие инструкции.</p></article></section>
+          <section data-panel="messages" hidden><div class="nf-feed-tools"><span>Messages</span><span class="nf-muted">sample conversations</span></div><article class="nf-thread"><div class="nf-thread-overline"><span>@mira</span><span>12:42</span></div><h3>Посмотри конфиг, когда будет время</h3><p>Нужно второе мнение по настройке сети.</p></article><article class="nf-thread"><div class="nf-thread-overline"><span>@zero</span><span>Yesterday</span></div><h3>Разобрался. Дело было в DNS.</h3><p>Оставил решение в обсуждении.</p></article></section>
+          <section data-panel="saved" hidden><div class="nf-feed-tools"><span>My space</span><span class="nf-muted">notes / snippets / runbooks</span></div><article class="nf-thread"><span class="nf-eyebrow">SNIPPET / SHELL</span><h3>Последние ошибки сервиса</h3><pre><code>journalctl -u app -p err -n 50</code></pre><p>Команды и заметки под рукой.</p></article></section>
+          <footer class="nf-main-footer"><span>nightfall / developer community</span><span>less noise. more signal.</span></footer>
+        </main>
+        <aside class="nf-art-panel"><span class="nf-eyebrow">AFTER HOURS</span><pre class="nf-ascii" role="img" aria-label="ASCII: ворота тории у гор под луной">                  .
+        .      .-.
+              (   )
+               '-'
+      ______________
+  ___/______________\___
+      |  |    |  |
+  ====|==|====|==|====
+      |  |    |  |
+      |  |    |  |
+    __|__|____|__|__
+   /   /\       /\ \
+ _/___/  \_____/  \_\_
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~</pre><p class="nf-art-caption">stay curious.<br />ship small.</p><div class="nf-art-divider"></div><span class="nf-eyebrow">YOUR STACK</span><p class="nf-stack">linux / containers<br />typescript / self-hosted</p></aside>
+      </div>
+      <div class="nf-command-layer" hidden><section class="nf-command-box" role="dialog" aria-modal="true" aria-label="Команды Nightfall"><div class="nf-command-top"><strong>&gt; command center</strong><button class="cursor-interaction" data-close-command aria-label="Закрыть команды">×</button></div><p class="nf-muted">Jump to</p><button class="cursor-interaction" data-jump="threads">/threads <span>Обсуждения ↵</span></button><button class="cursor-interaction" data-jump="channels">/channels <span>Каналы ↵</span></button><button class="cursor-interaction" data-jump="saved">/saved <span>Личные заметки ↵</span></button></section></div>
+    </div>
+  </section>
+  <section data-variant="Terminal desk" aria-label="Terminal desk" hidden>
+    <div class="nf-product nf-terminal" aria-label="Nightfall — терминальный интерфейс">
+      <header class="nf-terminal-top"><span class="nf-brand">nightfall<span>_</span></span><span class="nf-muted">a place to figure things out</span><span class="nf-local">○ local preview</span></header>
+      <nav class="nf-terminal-nav" aria-label="Терминальная навигация"><button class="cursor-interaction" data-terminal-tab="thread" aria-pressed="true">[ threads ]</button><button class="cursor-interaction" data-terminal-tab="channel" aria-pressed="false">channels</button><button class="cursor-interaction" data-terminal-tab="notes" aria-pressed="false">my space</button><span>apache@nightfall:~</span></nav>
+      <main class="nf-terminal-main">
+        <div class="nf-terminal-intro"><div><span class="nf-eyebrow">~/threads / linux</span><h2>Small fixes.<br /><span>Shared knowledge.</span></h2><p class="nf-description">Разбираем сложное. Сохраняем полезное.</p></div><pre class="nf-terminal-ascii" role="img" aria-label="ASCII: горы и восход">         _..._
+       .'     '.
+      /         \
+  /\  '._   _.'   /\
+ /  \    '''     /  \
+/    \   /\     /    \
+      \ /  \___/
+_ _ _ _ _ _ _ _ _ _ _</pre></div>
+        <section data-terminal-panel="thread"><div class="nf-terminal-path"><span>thread / 0042</span><span class="nf-solved">✓ solved</span></div><h3>Найти процесс, который занял порт</h3><p class="nf-terminal-copy">Сервис не стартует: <code>Address already in use</code>.<br />Как понять, кто слушает порт, и проверить процесс?</p><div class="nf-answer"><div class="nf-answer-label"><span>↳ accepted answer / @mira</span><button class="cursor-interaction" data-copy>Copy</button></div><pre><code>ss -ltnp 'sport = :5173'</code></pre><p>Сначала проверь имя процесса и PID в выводе.</p></div><div class="nf-terminal-tags"><span># linux</span><span># networking</span><span>2 replies</span></div><button class="nf-reply-toggle cursor-interaction" data-reply aria-expanded="false">↳ Add a reply</button><div class="nf-reply-form" hidden><label>Your reply<textarea rows="2" placeholder="Добавь пояснение или другой способ…"></textarea></label><span class="nf-muted">Предпросмотр редактора</span></div></section>
+        <section data-terminal-panel="channel" hidden><div class="nf-terminal-path"><span>~/channels / linux</span><span>following</span></div><h3># linux</h3><p class="nf-terminal-copy">Короткие разборы, конфиги и полезные находки.</p><div class="nf-answer"><span class="nf-eyebrow">PINNED / RUNBOOK</span><h3>Сначала логи. Потом гипотезы.</h3><p>Контекст → воспроизведение → причина → проверенное решение.</p></div></section>
+        <section data-terminal-panel="notes" hidden><div class="nf-terminal-path"><span>~/my-space / snippets</span><span>private</span></div><h3>Маленькая личная база знаний</h3><p class="nf-terminal-copy">Заметки, команды и решения, к которым хочется вернуться.</p><div class="nf-answer"><span class="nf-eyebrow">SHELL / JOURNAL</span><pre><code>journalctl -u app --since today</code></pre><p>Логи сервиса за сегодня.</p></div></section>
+      </main>
+      <footer class="nf-terminal-footer"><span>~/nightfall</span><span>code / people / solutions</span><span>[ focus ]</span></footer>
+    </div>
+  </section>
+</div>
+<style>
+#nightfall-directions .nf-product { --nf-bg:#111411; --nf-panel:#151915; --nf-text:#e1e5db; --nf-muted:#a0aa9a; --nf-line:#30372e; --nf-accent:#b1cd91; position:relative; min-height:706px; color:var(--nf-text); background:var(--nf-bg); font:14px/1.55 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace; color-scheme:dark; border:1px solid var(--nf-line); border-radius:5px; }
+#nightfall-directions .nf-product * { box-sizing:border-box; }
+#nightfall-directions .nf-product [hidden] { display:none !important; }
+#nightfall-directions .nf-product button,#nightfall-directions .nf-product input,#nightfall-directions .nf-product textarea { font:inherit; }
+#nightfall-directions .nf-product button { color:inherit; background:transparent; border:0; text-align:left; }
+#nightfall-directions .nf-product button:focus-visible,#nightfall-directions .nf-product input:focus-visible,#nightfall-directions .nf-product textarea:focus-visible { outline:2px solid var(--nf-accent); outline-offset:3px; }
+#nightfall-directions .nf-product p,#nightfall-directions .nf-product h2,#nightfall-directions .nf-product h3,#nightfall-directions .nf-product pre { margin:0; }
+#nightfall-directions .nf-product h2 { font:500 22px/1.35 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing:-.8px; }
+#nightfall-directions .nf-product h3 { font-size:16px; font-weight:500; }
+#nightfall-directions .nf-muted { color:var(--nf-muted); font-size:12px; }
+#nightfall-directions .nf-eyebrow { display:block; color:var(--nf-muted); font-size:11px; letter-spacing:1.3px; }
+#nightfall-directions .nf-chrome { display:flex; align-items:center; gap:30px; min-height:67px; padding:16px 110px 16px 23px; border-bottom:1px solid var(--nf-line); }
+#nightfall-directions .nf-brand { white-space:nowrap; font-size:18px; font-weight:500; letter-spacing:-.7px; }
+#nightfall-directions .nf-brand>span { color:var(--nf-accent); }
+#nightfall-directions .nf-chrome-path { flex:1; color:var(--nf-muted); font-size:11px; }
+#nightfall-directions .nf-command { display:flex; align-items:center; gap:10px; white-space:nowrap; font-size:12px !important; }
+#nightfall-directions kbd { color:var(--nf-muted); font:11px inherit; border:1px solid var(--nf-line); padding:2px 4px; }
+#nightfall-directions .nf-workspace { display:grid; grid-template-columns:174px minmax(0,1fr) 186px; min-height:637px; }
+#nightfall-directions .nf-sidebar { display:flex; flex-direction:column; padding:24px 15px; border-right:1px solid var(--nf-line); }
+#nightfall-directions .nf-identity { display:flex; align-items:center; gap:10px; padding:0 6px 27px; }
+#nightfall-directions .nf-avatar { display:grid; place-items:center; width:30px; height:30px; color:var(--nf-accent); border:1px solid var(--nf-line); }
+#nightfall-directions .nf-identity small { display:block; color:var(--nf-muted); font-size:11px; }
+#nightfall-directions .nf-nav { display:grid; gap:5px; }
+#nightfall-directions .nf-nav button { display:flex; gap:9px; align-items:center; padding:10px 8px; font-size:12px; border-radius:3px; }
+#nightfall-directions .nf-nav button>span { width:14px; color:var(--nf-muted); }
+#nightfall-directions .nf-nav button small { margin-left:auto; color:var(--nf-muted); font-size:11px; }
+#nightfall-directions .nf-nav button[aria-pressed="true"] { background:#232c20; color:var(--nf-accent); }
+#nightfall-directions .nf-nav button:hover { background:#1d251d; }
+#nightfall-directions .nf-sidebar-tail { padding:30px 8px 0; }
+#nightfall-directions .nf-sidebar-tail p { margin-top:13px; font-size:12px; color:var(--nf-muted); }
+#nightfall-directions .nf-local { color:var(--nf-muted); font-size:11px; white-space:nowrap; }
+#nightfall-directions .nf-sidebar-tail .nf-local { margin-top:100px; }
+#nightfall-directions .nf-main { min-width:0; padding:29px 28px 20px; }
+#nightfall-directions .nf-page-heading { display:flex; align-items:flex-start; flex-wrap:wrap; gap:18px; margin-bottom:28px; }
+#nightfall-directions .nf-page-heading>div { flex:1 1 280px; }
+#nightfall-directions .nf-page-heading h2 { margin-top:11px; }
+#nightfall-directions .nf-description { margin-top:10px !important; color:var(--nf-muted); font-size:13px; }
+#nightfall-directions .nf-primary { padding:9px 13px; background:var(--nf-accent) !important; color:var(--nf-bg) !important; white-space:nowrap; font-size:12px !important; border-radius:3px; }
+#nightfall-directions .nf-feed-tools { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding-bottom:13px; border-bottom:1px solid var(--nf-line); font-size:12px; }
+#nightfall-directions .nf-filters { display:flex; gap:16px; flex-wrap:wrap; }
+#nightfall-directions .nf-filters button { padding:4px 0; color:var(--nf-muted); font-size:12px; }
+#nightfall-directions .nf-filters button[aria-pressed="true"] { color:var(--nf-accent); }
+#nightfall-directions .nf-thread { padding:22px 0; border-bottom:1px solid var(--nf-line); }
+#nightfall-directions .nf-thread-overline { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; color:var(--nf-muted); font-size:11px; }
+#nightfall-directions .nf-thread-title { display:flex; justify-content:space-between; gap:15px; width:100%; margin-top:10px; padding:0; font-size:15px !important; font-weight:500 !important; }
+#nightfall-directions .nf-thread-title>span { color:var(--nf-muted); }
+#nightfall-directions .nf-thread>p { margin-top:8px; color:var(--nf-muted); font-size:12px; }
+#nightfall-directions .nf-thread h3 { margin:10px 0; }
+#nightfall-directions .nf-thread-bottom { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:16px; font-size:11px; }
+#nightfall-directions .nf-tag { color:var(--nf-muted); }
+#nightfall-directions .nf-tag::before { content:'#'; opacity:.6; }
+#nightfall-directions .nf-replies { margin-left:auto; color:var(--nf-muted); }
+#nightfall-directions .nf-solved { color:var(--nf-accent); font-size:12px; }
+#nightfall-directions .nf-thread-detail { padding-top:18px; color:var(--nf-muted); font-size:13px; }
+#nightfall-directions .nf-product pre:not(.nf-ascii):not(.nf-terminal-ascii) { white-space:pre-wrap; overflow-wrap:anywhere; margin:14px 0; padding:15px; background:#0c100c; color:var(--nf-text); font:12px/1.8 ui-monospace,Consolas,monospace; }
+#nightfall-directions .nf-main-footer { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-top:25px; color:var(--nf-muted); font-size:11px; }
+#nightfall-directions .nf-art-panel { padding:31px 15px 20px; border-left:1px solid var(--nf-line); }
+#nightfall-directions .nf-ascii { margin-top:24px !important; color:var(--nf-accent); font:11px/1.55 ui-monospace,Consolas,monospace; white-space:pre; }
+#nightfall-directions .nf-art-caption { margin-top:25px !important; color:var(--nf-text); font-size:14px; }
+#nightfall-directions .nf-art-divider { height:1px; background:var(--nf-line); margin:30px 0; }
+#nightfall-directions .nf-stack { margin-top:12px !important; color:var(--nf-muted); font-size:11px; line-height:1.9; }
+#nightfall-directions .nf-inline-composer,#nightfall-directions .nf-reply-form { margin-bottom:22px; }
+#nightfall-directions .nf-product label { display:grid; gap:8px; font-size:12px; color:var(--nf-muted); }
+#nightfall-directions .nf-product input,#nightfall-directions .nf-product textarea { min-width:0; width:100%; padding:12px; background:#0c100c; color:var(--nf-text); border:1px solid var(--nf-line); border-radius:3px; }
+#nightfall-directions .nf-command-layer { position:absolute; inset:0; z-index:3; display:flex; align-items:flex-start; justify-content:center; padding:90px 20px 20px; background:#080c08c9; border-radius:5px; }
+#nightfall-directions .nf-command-box { width:min(440px,100%); padding:20px; border:1px solid #5a6b50; background:var(--nf-panel); border-radius:4px; }
+#nightfall-directions .nf-command-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+#nightfall-directions .nf-command-top strong { font-weight:500; }
+#nightfall-directions .nf-command-top button { padding:3px 8px; font-size:20px; }
+#nightfall-directions .nf-command-box>button { display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; width:100%; padding:14px 0; color:var(--nf-accent); border-bottom:1px solid var(--nf-line); }
+#nightfall-directions .nf-command-box>button>span { color:var(--nf-muted); font-size:12px; }
+#nightfall-directions .nf-terminal { --nf-bg:#141613; --nf-panel:#191c17; --nf-text:#e3e5db; --nf-muted:#a3a99b; --nf-accent:#bed19c; display:flex; flex-direction:column; }
+#nightfall-directions .nf-terminal-top { display:flex; align-items:center; flex-wrap:wrap; gap:25px; padding:22px 110px 22px 30px; }
+#nightfall-directions .nf-terminal-top>.nf-local { margin-left:auto; }
+#nightfall-directions .nf-terminal-nav { display:flex; align-items:center; flex-wrap:wrap; gap:24px; padding:13px 30px; border-block:1px solid var(--nf-line); }
+#nightfall-directions .nf-terminal-nav button { padding:0; color:var(--nf-muted); font-size:13px; }
+#nightfall-directions .nf-terminal-nav button[aria-pressed="true"] { color:var(--nf-accent); }
+#nightfall-directions .nf-terminal-nav>span { margin-left:auto; color:var(--nf-muted); font-size:11px; }
+#nightfall-directions .nf-terminal-main { flex:1; width:min(780px,100%); margin:auto; padding:29px 30px; }
+#nightfall-directions .nf-terminal-intro { display:flex; align-items:center; justify-content:space-between; gap:30px; margin-bottom:34px; }
+#nightfall-directions .nf-terminal-intro h2 { margin-top:13px; font-size:26px; }
+#nightfall-directions .nf-terminal-intro h2>span { color:var(--nf-accent); }
+#nightfall-directions .nf-terminal-ascii { color:#96a77b; font:12px/1.5 ui-monospace,Consolas,monospace; white-space:pre; }
+#nightfall-directions .nf-terminal-path { display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; padding-bottom:15px; margin-bottom:18px; border-bottom:1px solid var(--nf-line); color:var(--nf-muted); font-size:12px; }
+#nightfall-directions .nf-terminal-copy { margin:13px 0 21px !important; color:var(--nf-muted); }
+#nightfall-directions .nf-answer { padding:16px 18px; background:var(--nf-panel); border-left:2px solid var(--nf-accent); }
+#nightfall-directions .nf-answer-label { display:flex; align-items:center; flex-wrap:wrap; gap:12px; justify-content:space-between; color:var(--nf-accent); font-size:12px; }
+#nightfall-directions .nf-answer-label button { padding:3px 8px; border:1px solid var(--nf-line); font-size:12px; }
+#nightfall-directions .nf-answer p { color:var(--nf-muted); font-size:12px; }
+#nightfall-directions .nf-answer h3 { margin:14px 0; }
+#nightfall-directions .nf-terminal-tags { display:flex; flex-wrap:wrap; gap:18px; padding:19px 0; color:var(--nf-muted); font-size:12px; }
+#nightfall-directions .nf-terminal-tags>span:last-child { margin-left:auto; }
+#nightfall-directions .nf-reply-toggle { padding:0; color:var(--nf-accent) !important; font-size:13px !important; }
+#nightfall-directions .nf-reply-form { margin-top:15px; }
+#nightfall-directions .nf-terminal-footer { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:13px 30px; border-top:1px solid var(--nf-line); color:var(--nf-muted); font-size:11px; }
+@media(max-width:900px) { #nightfall-directions .nf-workspace { grid-template-columns:160px minmax(0,1fr); } #nightfall-directions .nf-art-panel { display:none; } #nightfall-directions .nf-main { padding-inline:23px; } }
+@media(max-width:600px) { #nightfall-directions .nf-product { min-height:960px; } #nightfall-directions .nf-chrome { padding:17px 105px 17px 16px; gap:10px; flex-wrap:wrap; } #nightfall-directions .nf-chrome-path { display:none; } #nightfall-directions .nf-command { font-size:11px !important; } #nightfall-directions .nf-command kbd { display:none; } #nightfall-directions .nf-workspace { display:block; } #nightfall-directions .nf-sidebar { padding:12px; border-right:0; border-bottom:1px solid var(--nf-line); } #nightfall-directions .nf-identity,#nightfall-directions .nf-sidebar-tail { display:none; } #nightfall-directions .nf-nav { grid-template-columns:1fr 1fr; gap:4px; } #nightfall-directions .nf-nav button { min-height:44px; } #nightfall-directions .nf-main { padding:24px 17px; } #nightfall-directions .nf-page-heading { margin-bottom:24px; } #nightfall-directions .nf-page-heading h2 { font-size:21px; } #nightfall-directions .nf-primary { min-height:44px; } #nightfall-directions .nf-feed-tools>.nf-muted { display:none; } #nightfall-directions .nf-filters { gap:16px; } #nightfall-directions .nf-filters button { min-height:44px; } #nightfall-directions .nf-thread-title { font-size:15px !important; } #nightfall-directions .nf-art-panel { display:none; } #nightfall-directions .nf-terminal-top { padding:20px 100px 20px 18px; gap:10px; } #nightfall-directions .nf-terminal-top>.nf-muted { display:none; } #nightfall-directions .nf-terminal-top>.nf-local { margin-left:0; } #nightfall-directions .nf-terminal-nav { padding:8px 17px; gap:17px; } #nightfall-directions .nf-terminal-nav button { min-height:44px; font-size:12px; } #nightfall-directions .nf-terminal-nav>span { display:none; } #nightfall-directions .nf-terminal-main { padding:25px 18px; } #nightfall-directions .nf-terminal-intro { align-items:flex-start; flex-direction:column; gap:22px; margin-bottom:25px; } #nightfall-directions .nf-terminal-intro h2 { font-size:23px; } #nightfall-directions .nf-terminal-ascii { align-self:center; } #nightfall-directions .nf-terminal-footer { padding:13px 18px; } #nightfall-directions .nf-product input,#nightfall-directions .nf-product textarea { font-size:16px; } #nightfall-directions .nf-answer { padding:14px; } #nightfall-directions .nf-product pre:not(.nf-ascii):not(.nf-terminal-ascii) { padding:12px; } }
+@media(pointer:coarse) { #nightfall-directions .nf-command-box button,#nightfall-directions .nf-answer-label button,#nightfall-directions .nf-reply-toggle { min-height:44px; } }
+</style>
+<script>
+(() => {
+  const root = document.getElementById('nightfall-directions');
+  const shell = root.querySelector('.nf-shell');
+  const terminal = root.querySelector('.nf-terminal');
+  const state = { accent:'#b1cd91', spacing:22, ascii:true, section:'threads', filter:'all', terminalTab:'thread' };
+  const names = { threads:'Build. Break. Figure it out.', channels:'Follow what matters.', messages:'A quieter conversation.', saved:'Keep the useful things.' };
+  const command = shell.querySelector('.nf-command-layer');
+  const launcher = shell.querySelector('[data-command]');
+  function save() {
+    const pending = window.openai?.setWidgetState?.({ modelContent:{ direction:'Omarchy / Ryoku / ASCII', accent:state.accent, ascii:state.ascii }, privateContent:{ section:state.section, filter:state.filter, terminalTab:state.terminalTab, spacing:state.spacing } });
+    pending?.catch?.(() => {});
+  }
+  function render() {
+    shell.style.setProperty('--nf-accent', state.accent);
+    shell.querySelector('[data-heading]').textContent = names[state.section];
+    shell.querySelectorAll('[data-panel]').forEach(el => { el.hidden = el.dataset.panel !== state.section; });
+    shell.querySelectorAll('[data-section]').forEach(el => el.setAttribute('aria-pressed', String(el.dataset.section === state.section)));
+    shell.querySelectorAll('[data-filter]').forEach(el => el.setAttribute('aria-pressed', String(el.dataset.filter === state.filter)));
+    shell.querySelectorAll('.nf-thread[data-state]').forEach(el => { el.hidden = state.filter !== 'all' && el.dataset.state !== state.filter; });
+    shell.querySelectorAll('.nf-thread').forEach(el => { el.style.paddingBlock = state.spacing + 'px'; });
+    shell.querySelector('.nf-ascii').hidden = !state.ascii;
+    shell.querySelector('.nf-art-caption').hidden = !state.ascii;
+    terminal.querySelectorAll('[data-terminal-panel]').forEach(el => { el.hidden = el.dataset.terminalPanel !== state.terminalTab; });
+    terminal.querySelectorAll('[data-terminal-tab]').forEach(el => el.setAttribute('aria-pressed', String(el.dataset.terminalTab === state.terminalTab)));
+  }
+  function applySaved(saved) {
+    const shared = saved?.modelContent;
+    const local = saved?.privateContent;
+    if (shared && /^#[0-9a-f]{6}$/i.test(shared.accent)) state.accent = shared.accent;
+    if (typeof shared?.ascii === 'boolean') state.ascii = shared.ascii;
+    if (local && Object.hasOwn(names, local.section)) state.section = local.section;
+    if (['all','open','solved'].includes(local?.filter)) state.filter = local.filter;
+    if (['thread','channel','notes'].includes(local?.terminalTab)) state.terminalTab = local.terminalTab;
+    if (Number.isFinite(local?.spacing)) state.spacing = Math.max(16,Math.min(32,local.spacing));
+  }
+  applySaved(window.openai?.widgetState);
+  render();
+  window.addEventListener('openai:set_globals', event => { if (event.detail?.globals?.widgetState) { applySaved(event.detail.globals.widgetState); render(); } });
+  root.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button || !root.contains(button)) return;
+    if (button.dataset.section) { state.section = button.dataset.section; render(); save(); }
+    if (button.dataset.filter) { state.filter = button.dataset.filter; render(); save(); }
+    if (button.hasAttribute('data-expand')) { const detail = button.closest('.nf-thread').querySelector('.nf-thread-detail'); detail.hidden = !detail.hidden; button.setAttribute('aria-expanded',String(!detail.hidden)); }
+    if (button.hasAttribute('data-compose')) { const form = shell.querySelector('.nf-inline-composer'); form.hidden = !form.hidden; if (!form.hidden) form.querySelector('input').focus(); }
+    if (button.hasAttribute('data-command')) { command.hidden = false; command.querySelector('[data-close-command]').focus(); }
+    if (button.hasAttribute('data-close-command')) { command.hidden = true; launcher.focus(); }
+    if (button.dataset.jump) { state.section = button.dataset.jump; command.hidden = true; render(); launcher.focus(); save(); }
+    if (button.dataset.terminalTab) { state.terminalTab = button.dataset.terminalTab; render(); save(); }
+    if (button.hasAttribute('data-reply')) { const form = terminal.querySelector('.nf-reply-form'); form.hidden = !form.hidden; button.setAttribute('aria-expanded',String(!form.hidden)); if (!form.hidden) form.querySelector('textarea').focus(); }
+    if (button.hasAttribute('data-copy')) { const text = "ss -ltnp 'sport = :5173'"; if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(() => { button.textContent = 'Copied'; }).catch(() => { button.textContent = 'Select code'; }); else button.textContent = 'Select code'; }
+  });
+  command.addEventListener('click', event => { if (event.target === command) { command.hidden = true; launcher.focus(); } });
+  root.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !command.hidden) { command.hidden = true; launcher.focus(); }
+    if (event.key === 'Tab' && !command.hidden) { const items = [...command.querySelectorAll('button')]; const first = items[0]; const last = items[items.length-1]; if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); } }
+  });
+  if (globalThis.Tweak) {
+    const tweak = new Tweak({ container:shell, onChange:() => { render(); save(); } });
+    tweak.addColorPicker(state,'accent',{ label:'Акцент',reference:'--nf-accent' });
+    tweak.addSlider(state,'spacing',{ label:'Воздух между темами',min:16,max:32,unit:'px' });
+    tweak.addToggle(state,'ascii',{ label:'ASCII-рисунок' });
+  }
+})();
+</script>

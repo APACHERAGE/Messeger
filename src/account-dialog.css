@@ -1,0 +1,17 @@
+.account-dialog-backdrop { position:fixed;inset:0;z-index:80;display:flex;justify-content:flex-end;background:#0008;backdrop-filter:blur(6px);padding:18px; }
+.account-dialog { min-width:0;width:min(1080px,100%);height:100%;overflow:hidden;border:1px solid var(--ui-border,var(--nf-354b36, #354b36));border-radius:12px;background:var(--ui-bg,var(--nf-0c150f, #0c150f));box-shadow:-20px 0 90px #0007; }
+.account-dialog .account-page { padding:0;height:100%; }
+.account-dialog .account-panel { width:100%;min-height:100%;border:0;border-radius:0;box-shadow:none; }
+.account-dialog .account-header { padding:24px 28px 20px; }
+.account-dialog .account-content:not(.account-content-full) { max-width:none;padding:25px 28px 32px;column-gap:24px;row-gap:5px; }
+.account-dialog .account-field { margin:0 0 17px;padding:0;gap:8px; }
+.account-dialog .account-field > input,.account-dialog .account-field > textarea,.account-dialog .username-input { border-radius:6px;background:var(--ui-surface,var(--nf-131f17, #131f17));border-color:var(--ui-border,var(--nf-354b36, #354b36)); }
+.account-dialog .account-hero { min-height:150px;border-radius:9px;margin-bottom:25px; }
+.account-dialog .account-hero-content { padding:23px; }
+.account-dialog .account-hero-avatar { width:80px;height:80px;border-radius:50%; }
+.account-dialog .account-hero-copy > strong { font-size:23px; }
+.editor-group-title { grid-column:1/-1;display:flex;align-items:center;gap:12px;margin:12px 0 20px;color:var(--ui-text,var(--nf-dce9db, #dce9db));font:500 16px Inter,system-ui,sans-serif; }
+.editor-group-title::after { content:'';flex:1;height:1px;background:var(--ui-border,var(--nf-354b36, #354b36));opacity:.5; }
+.account-dialog .account-footer { min-height:65px;padding:13px 28px;background:var(--ui-surface,var(--nf-131f17, #131f17));border-color:var(--ui-border,var(--nf-354b36, #354b36)); }
+.account-dialog .settings-workspace { min-height:650px; }
+@media(max-width:680px) { .account-dialog-backdrop { padding:0; } .account-dialog { border:0;border-radius:0; } .account-dialog .account-header { padding:20px; } .account-dialog .account-content:not(.account-content-full) { padding:20px; } .account-dialog .account-footer { padding:12px 20px; } }

@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.idea/
+*.log
+*.tsbuildinfo
+backend/target/
+backend/*.db
+backend/*.trace.db
+.env
+.env.*
+!.env.example
+.share/
+.tools/
+test-accounts.txt
+
+# Local snapshots, private preview repo and nested demo app
+.backups/
+.site-git/
+web-preview/
+iphone-ryoku/

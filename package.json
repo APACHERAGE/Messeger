@@ -1,0 +1,38 @@
+{
+  "name": "nightfall-messenger",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:demo": "tsc -b && vite build --mode demo-preview --outDir web-preview/dist && node scripts/prepare-demo-preview.mjs",
+    "preview": "vite preview",
+    "test": "npm run test:api && npm run check:account && npm run check:posts && npm run check:social && npm run check:appearance && npm run check:channels && npm run check:navigation",
+    "test:api": "node scripts/check-api.mjs",
+    "check:account": "node scripts/check-account.mjs",
+    "check:posts": "node scripts/check-posts.mjs",
+    "check:social": "node scripts/check-social.mjs",
+    "check:appearance": "node scripts/check-appearance.mjs",
+    "check:channels": "node scripts/check-channels.mjs",
+    "check:navigation": "node scripts/check-navigation.mjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "lucide-react": "latest",
+    "pixelarticons": "2.4.2",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-markdown": "^10.1.0",
+    "rehype-sanitize": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "typescript": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "fake-indexeddb": "^6.2.8",
+    "jsdom": "26.1.0"
+  }
+}

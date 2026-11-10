@@ -1,0 +1,1 @@
+CONFIRMED: logout leaves the profile cache; a failed profile request in the next session returns the previous user profile.

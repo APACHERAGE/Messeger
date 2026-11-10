@@ -1,0 +1,25 @@
+import { useState } from 'react'
+import { ArrowUpRight, Download, FileText, Link, LockKeyhole, MessageCircle, Pencil, Pin, Trash2, UnlockKeyhole } from 'lucide-react'
+import { deleteChannelPost, updateChannelPost, type Channel, type ChannelPost } from './api/channelsApi'
+import ChannelComments from './ChannelComments'
+
+type Props={channel:Channel;post:ChannelPost;user:{id:string;name:string;username:string};onUpdate:(post:ChannelPost)=>void;onDelete:()=>void}
+export default function ChannelPostItem({channel,post,user,onUpdate,onDelete}:Props){
+ const owner=channel.ownerId===user.id,enabled=channel.commentsEnabled&&post.commentsEnabled
+ const [commentsOpen,setCommentsOpen]=useState(false),[editing,setEditing]=useState(false),[body,setBody]=useState(post.body),[confirmDelete,setConfirmDelete]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState('')
+ async function update(input:Partial<Pick<ChannelPost,'body'|'pinned'|'commentsEnabled'>>){setBusy(true);setError('');try{onUpdate(await updateChannelPost(channel.id,post.id,user.id,input));if(input.body!==undefined)setEditing(false)}catch(e){setError(e instanceof Error?e.message:'Could not update post.')}finally{setBusy(false)}}
+ async function remove(){setBusy(true);setError('');try{await deleteChannelPost(channel.id,post.id,user.id);onDelete()}catch(e){setError(e instanceof Error?e.message:'Could not delete post.');setBusy(false)}}
+ return <article className={`channel-post ${post.pinned?'is-pinned':''}`}>
+  <div className="channel-post-meta"><span className="channel-post-mark">{post.pinned?<Pin size={12}/>:'#'}</span><strong>{channel.title}</strong>{post.pinned&&<span className="channel-pin-label">Pinned</span>}<time dateTime={post.createdAt}>{new Date(post.createdAt).toLocaleString()}</time>{post.editedAt&&<small>edited</small>}</div>
+  {error&&<p className="channel-inline-error" role="alert">{error}</p>}
+  {editing?<form className="channel-post-edit" onSubmit={e=>{e.preventDefault();void update({body})}}><label htmlFor={`edit-post-${post.id}`}>Edit post text</label><textarea id={`edit-post-${post.id}`} value={body} maxLength={2000} rows={4} onChange={e=>setBody(e.target.value)} disabled={busy}/><div><button type="submit" className="channel-primary" disabled={busy}>Save post</button><button type="button" disabled={busy} onClick={()=>setEditing(false)}>Cancel</button></div></form>:post.body&&<p>{post.body}</p>}
+  {post.link&&<a className="channel-post-link" href={post.link} target="_blank" rel="noreferrer"><Link size={14}/>{post.link}<ArrowUpRight size={13}/></a>}
+  {post.attachmentData&&post.attachmentName&&<div className="channel-post-attachment">{post.attachmentType?.startsWith('image/')?<a href={post.attachmentData} target="_blank" rel="noreferrer" aria-label={`Open ${post.attachmentName}`}><img src={post.attachmentData} alt={post.attachmentName}/></a>:<FileText size={17}/>}<span><strong>{post.attachmentName}</strong><small>{post.attachmentType||'File attachment'}</small></span><a href={post.attachmentData} download={post.attachmentName} aria-label={`Download ${post.attachmentName}`}><Download size={15}/></a></div>}
+  <div className="channel-post-footer"><span>POST / {post.id.slice(0,8).toUpperCase()}</span><span>@{post.username}</span></div>
+  <div className="channel-post-actions"><button type="button" className="channel-comments-button" aria-expanded={commentsOpen} aria-controls={`comments-${post.id}`} onClick={()=>setCommentsOpen(value=>!value)}><MessageCircle size={15}/>{commentsOpen?'Hide comments':'Comments'}<span>{post.commentCount}</span>{!enabled&&<LockKeyhole size={12}/>}</button>
+   {owner&&<div className="channel-post-owner-actions"><button type="button" disabled={busy} aria-label={post.pinned?'Unpin post':'Pin post'} title={post.pinned?'Unpin post':'Pin post'} aria-pressed={post.pinned} onClick={()=>void update({pinned:!post.pinned})}><Pin size={14}/></button><button type="button" disabled={busy} aria-label="Edit post" title="Edit post" onClick={()=>{setBody(post.body);setEditing(value=>!value)}}><Pencil size={14}/></button><button type="button" disabled={busy} aria-label={post.commentsEnabled?'Close comments on this post':'Open comments on this post'} title={post.commentsEnabled?'Close comments':'Open comments'} onClick={()=>void update({commentsEnabled:!post.commentsEnabled})}>{post.commentsEnabled?<LockKeyhole size={14}/>:<UnlockKeyhole size={14}/>}</button><button type="button" disabled={busy} className="channel-danger" aria-label="Delete post" title="Delete post" onClick={()=>setConfirmDelete(value=>!value)}><Trash2 size={14}/></button></div>}
+  </div>
+  {confirmDelete&&<div className="channel-post-delete-confirm"><span>Delete this post and its entire discussion?</span><button type="button" className="channel-danger" disabled={busy} onClick={()=>void remove()}>Delete post</button><button type="button" disabled={busy} onClick={()=>setConfirmDelete(false)}>Cancel</button></div>}
+  <ChannelComments channelId={channel.id} postId={post.id} user={user} open={commentsOpen} enabled={enabled} onCount={commentCount=>onUpdate({...post,commentCount})}/>
+ </article>
+}

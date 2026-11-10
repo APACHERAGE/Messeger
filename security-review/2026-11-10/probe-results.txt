@@ -1,0 +1,10 @@
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+CONFIRMED: Unauthenticated repeated registration invalidates the previous verification link
+CONFIRMED: After owner verification, the initially registered password remains valid and the owner's submitted password is invalid
+CONFIRMED: Login distinguishes an unverified existing email from an unknown email without a correct password
+CONFIRMED: Login accepts a >72-byte Unicode password sharing the registered 72-byte prefix (BCrypt 6.4.2)
+CONFIRMED: Chat attachment DTO accepts a decoded 1,050,000-byte file despite the 1 MB UI limit
+CONFIRMED: Chat attachment DTO accepts an arbitrary remote URL instead of requiring a validated data URL
+CONFIRMED: Positive control: chat access is restricted to its owner

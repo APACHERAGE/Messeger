@@ -1,0 +1,4 @@
+.home-profile-page { min-width: 0; min-height: 0; height: 100%; padding: 26px clamp(16px,3vw,42px); overflow: auto; background: radial-gradient(ellipse at 70% 0,color-mix(in srgb, var(--nf-375638, #375638) 14.51%, transparent),transparent 45%),var(--nf-0a130e, #0a130e); }
+.home-profile-inner { width: min(100%,1100px); margin: 0 auto; }
+.home-profile-inner > :first-child { overflow: clip; border: 1px solid color-mix(in srgb, var(--nf-9fbc85, #9fbc85) 16.47%, transparent); border-radius: 12px; box-shadow: 0 20px 80px #0004; }
+@media(max-width:620px) { .home-profile-page { padding:12px; } }
