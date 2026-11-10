@@ -50,3 +50,25 @@ Created `ROADMAP.md` with P0/P1/P2 tasks and explicit deferred items.
 ## Next
 
 T1.1 — remove the phantom `my-chat` message request.
+
+## 2026-11-10 — API contract repair and CI
+
+### T3.1 Repair the full API check
+
+- Updated the one stale expectation: anonymous access to a channel comment
+  photo now expects `401` (Spring Security's entry point) instead of `403`.
+  The endpoint still never serves bytes without an authenticated session.
+- `python3 scripts/check-profile-api.py` — pass.
+- `python3 scripts/check-profile-api.py --legacy-channels` — pass, including
+  historical channel migration.
+
+### T3.2 Add the API check to CI
+
+- Added an `api-contract` job to `.github/workflows/ci.yml`: Java 21, Maven
+  cache, `mvn -B -DskipTests package`, then both API check modes.
+
+### Current tree state
+
+- The parallel QA session still has uncommitted frontend/profile/security
+  changes. Only the API script, CI workflow, and this log entry are committed
+  at this point so the two workstreams stay separable.

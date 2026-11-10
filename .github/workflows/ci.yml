@@ -37,3 +37,21 @@ jobs:
           java-version: 21
           cache: maven
       - run: mvn -B test
+
+  api-contract:
+    name: API contract checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+      - name: Compile backend classes
+        run: mvn -B -DskipTests package
+        working-directory: backend
+      - name: Profile, social, and channel contract checks
+        run: python3 scripts/check-profile-api.py
+      - name: Legacy channel database migration
+        run: python3 scripts/check-profile-api.py --legacy-channels

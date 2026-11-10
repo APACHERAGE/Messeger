@@ -217,7 +217,9 @@ try:
     assert image_comment['photoUrl'] and 'photoData' not in image_comment and 'photo' not in image_comment
     with charlie.open(base+image_comment['photoUrl']) as response:
         assert response.read()==png and response.headers['Content-Type']=='image/png' and response.headers['X-Content-Type-Options']=='nosniff'
-    expect_error(403,lambda:client().open(base+image_comment['photoUrl']),'Anonymous photo access')
+    # Spring Security's entry point answers unauthenticated requests with 401,
+    # not 403; either way the bytes must never be served anonymously.
+    expect_error(401,lambda:client().open(base+image_comment['photoUrl']),'Anonymous photo access')
     expect_error(400,lambda:req(bob,discussion,{'body':'','photoData':'data:image/png;base64,'+base64.b64encode(b'not png').decode()}),'Forged photo accepted')
     expect_error(400,lambda:req(bob,discussion,{'body':'','photoData':'data:image/svg+xml;base64,PHN2Zy8+'}),'SVG photo accepted')
     expect_error(400,lambda:req(bob,discussion,{'body':' '}),'Empty comment accepted')
