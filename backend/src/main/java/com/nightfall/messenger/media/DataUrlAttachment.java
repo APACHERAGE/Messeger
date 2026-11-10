@@ -21,7 +21,8 @@ import org.springframework.web.server.ResponseStatusException;
  */
 public final class DataUrlAttachment {
   private static final Pattern DATA_URL = Pattern.compile("^data:([a-zA-Z0-9.+-]+/[a-zA-Z0-9.+-]+);base64,(.+)$", Pattern.DOTALL);
-  private static final Set<String> IMAGE_TYPES = Set.of("image/png", "image/jpeg", "image/gif", "image/webp");
+  public static final Set<String> AVATAR_TYPES = Set.of("image/png", "image/jpeg", "image/gif", "image/webp");
+  private static final Set<String> IMAGE_TYPES = AVATAR_TYPES;
 
   public static final Set<String> CHAT_TYPES = Set.of(
     "image/png", "image/jpeg", "image/gif", "image/webp",

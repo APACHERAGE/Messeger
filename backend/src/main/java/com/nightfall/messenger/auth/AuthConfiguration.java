@@ -20,6 +20,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 
 @Configuration
 public class AuthConfiguration {
@@ -57,6 +58,15 @@ public class AuthConfiguration {
     CsrfTokenRepository csrfTokenRepository
   ) throws Exception {
     http
+      .headers(headers -> headers
+        .contentSecurityPolicy(csp -> csp.policyDirectives(
+          "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; "
+            + "form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
+            + "img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self' data:; "
+            + "connect-src 'self'; worker-src 'self' blob:"))
+        .referrerPolicy(referrer -> referrer.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
+        .permissionsPolicy(permissions -> permissions.policy(
+          "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()")))
       .csrf(csrf -> csrf
         .csrfTokenRepository(csrfTokenRepository)
         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))

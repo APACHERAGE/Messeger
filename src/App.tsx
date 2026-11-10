@@ -59,7 +59,9 @@ export default function App() {
   const [authError, setAuthError] = useState('')
   const [authUser, setAuthUser] = useState<AuthUser | null>(null)
   const [chats, setChats] = useState<Chat[]>([])
-  const [selectedId, setSelectedId] = useState('my-chat')
+  // Start empty: the real self-chat id is assigned after the chat list loads.
+  // Requesting a hard-coded id first produced a 404 and a false error toast.
+  const [selectedId, setSelectedId] = useState('')
   const [activeTab, setActiveTab] = useState<Tab>('All')
   const [view, setViewState] = useState<View>(initialRoute.view)
   const [routeTarget, setRouteTarget] = useState<RouteTarget>(initialRoute.target)

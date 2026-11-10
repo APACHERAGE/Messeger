@@ -294,14 +294,17 @@ input:focus-visible, textarea:focus-visible, select:focus-visible { border-color
 }
 @media (max-width: 760px) {
   .app-shell { min-height: 0; padding: 0; grid-template-rows: 70px minmax(0, 1fr); }
-  .masthead { padding-inline: 13px; border-bottom: 1px solid var(--line); gap: 8px; }
-  .wordmark { gap: 4px; }
+  .masthead { padding-inline: 13px; border-bottom: 1px solid var(--line); gap: 6px; }
+  .wordmark { gap: 4px; min-width: 0; }
+  .wordmark > div { min-width: 0; }
+  .wordmark strong { font-size: 26px; letter-spacing: -1.5px; white-space: nowrap; }
   .wordmark-mark { width: 32px; height: 32px; font-size: 20px; }
-  .wordmark strong { font-size: 26px; letter-spacing: -1.5px; }
-  .wordmark small { font-size: 6px; letter-spacing: 1.2px; margin-top: 6px; }
-  .masthead-actions { gap: 7px; }
+  .wordmark small { font-size: 6px; letter-spacing: 1.2px; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .masthead-actions { gap: 6px; flex: none; }
   .command-mobile-launch { display: grid; }
-  .session-badge { font-size: 7px; max-width: 75px; line-height: 1.5; }
+  /* The connection badge is informative on desktop but pushes the header past
+     a 390 px viewport; the same state is available in Settings. */
+  .session-badge { display: none; }
   .user-menu { padding-left: 8px; gap: 0; }
   .user-menu > span:not(.profile-avatar), .user-menu > svg { display: none; }
   .user-menu .profile-avatar { width: 33px; height: 33px; }
@@ -374,8 +377,12 @@ input:focus-visible, textarea:focus-visible, select:focus-visible { border-color
   .rail-button { min-height: 40px; padding-block: 3px; gap: 2px; }
 }
 @media (max-width: 359px) {
-  .session-badge { display: none; }
   .masthead-actions { flex: none; }
+  .wordmark small { display: none; }
+  .wordmark strong { font-size: 20px; letter-spacing: -1px; }
+  .wordmark-mark { width: 28px; height: 28px; font-size: 17px; }
+  .command-mobile-launch { display: none; }
+  .user-menu { padding-left: 4px; }
   .header-title > strong { font-size: 12px; }
 }
 @media (max-height: 670px) and (max-width: 760px) {
