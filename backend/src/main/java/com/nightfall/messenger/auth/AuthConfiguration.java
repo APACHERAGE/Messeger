@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -55,7 +56,8 @@ public class AuthConfiguration {
   public SecurityFilterChain securityFilterChain(
     HttpSecurity http,
     SecurityContextRepository securityContextRepository,
-    CsrfTokenRepository csrfTokenRepository
+    CsrfTokenRepository csrfTokenRepository,
+    AuthSessionVersionFilter authSessionVersionFilter
   ) throws Exception {
     http
       .headers(headers -> headers
@@ -71,6 +73,7 @@ public class AuthConfiguration {
         .csrfTokenRepository(csrfTokenRepository)
         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
       .securityContext(context -> context.securityContextRepository(securityContextRepository))
+      .addFilterAfter(authSessionVersionFilter, SecurityContextHolderFilter.class)
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
       .authorizeHttpRequests(authorize -> authorize
         .requestMatchers(HttpMethod.GET, "/api/health", "/api/auth/csrf", "/api/auth/session", "/api/auth/config").permitAll()

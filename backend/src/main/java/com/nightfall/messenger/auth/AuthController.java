@@ -241,6 +241,7 @@ public class AuthController {
 
     request.getSession(true);
     request.changeSessionId();
+    request.getSession().setAttribute(AuthSessionVersionFilter.SESSION_ATTRIBUTE, ((AuthUserEntity) authentication.getPrincipal()).sessionVersion);
     SecurityContext context = SecurityContextHolder.createEmptyContext();
     context.setAuthentication(authentication);
     SecurityContextHolder.setContext(context);

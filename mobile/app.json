@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "Nightfall Messenger",
+    "slug": "nightfall-messenger",
+    "version": "1.2.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "scheme": "nightfall",
+    "ios": { "bundleIdentifier": "com.nightfall.messenger" },
+    "android": { "package": "com.nightfall.messenger" }
+  }
+}

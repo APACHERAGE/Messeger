@@ -1,6 +1,6 @@
 # Nightfall Dev Board
 
-Current source version: **1.0.0**. See the [user manual](./USER_MANUAL.md), [version history](./VERSION_HISTORY.md), and [change log](./CHANGELOG.md).
+Current source version: **1.2.0**. See the [user manual](./USER_MANUAL.md), [version history](./VERSION_HISTORY.md), and [change log](./CHANGELOG.md).
 
 Nightfall is a responsive community app built with React, TypeScript, Vite, and a Spring Boot API. Home and the personal profile are one page: identity and status at the top, About, skills and repositories beneath, and a wall below. `/profile` is a compatible alias for `/`. Profile editing and settings open in a dialog over the same Home page, preserving its wall and draft state. Threads, channels, messages, mail, and people remain separate workspace sections.
 

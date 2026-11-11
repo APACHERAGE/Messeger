@@ -304,4 +304,29 @@ class AuthAndMailIntegrationTest {
       .andExpect(jsonPath("$.user.username").value(user.user().username));
     assertThat(user.user().emailVerified).isTrue();
   }
+
+  @Test
+  void passwordResetRevokesTheExistingSession() throws Exception {
+    SessionUser user = registerAndLogin(PASSWORD);
+    clearInvocations(mail);
+
+    mvc.perform(post("/api/auth/password-reset/request").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json.writeValueAsString(Map.of("identifier", user.user().email))))
+      .andExpect(status().isAccepted());
+
+    ArgumentCaptor<String> token = ArgumentCaptor.forClass(String.class);
+    verify(mail).sendPasswordReset(any(AuthUserEntity.class), token.capture());
+    mvc.perform(post("/api/auth/password-reset/confirm").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(json.writeValueAsString(Map.of(
+          "token", token.getValue(),
+          "password", "a-new-nightfall-password",
+          "confirmPassword", "a-new-nightfall-password"
+        ))))
+      .andExpect(status().isOk());
+
+    mvc.perform(get("/api/auth/session").session(user.session()))
+      .andExpect(status().isUnauthorized());
+  }
 }

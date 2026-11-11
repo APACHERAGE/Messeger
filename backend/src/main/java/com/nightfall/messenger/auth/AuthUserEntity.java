@@ -39,6 +39,10 @@ public class AuthUserEntity implements UserDetails {
   @Column(nullable = false)
   public boolean emailVerified;
 
+  /** Incremented when credentials change so existing sessions can be revoked. */
+  @Column(nullable = false, columnDefinition = "bigint default 0")
+  public long sessionVersion = 0;
+
   protected AuthUserEntity() {}
 
   @Override

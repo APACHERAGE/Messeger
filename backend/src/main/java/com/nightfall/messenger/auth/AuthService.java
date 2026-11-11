@@ -204,6 +204,7 @@ public class AuthService {
     AuthUserEntity user = users.findById(reset.userId)
       .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Account not found."));
     user.passwordHash = passwordEncoder.encode(password);
+    user.sessionVersion++;
     users.save(user);
     passwordResets.deleteAll(passwordResets.findByUserId(user.id));
   }

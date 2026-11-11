@@ -2,6 +2,20 @@
 
 All notable changes to the Nightfall project are documented in this file.
 
+## [1.2.0] - 2026-11-11
+
+### Mobile App
+- Added a separate Expo/React Native iPhone client under `mobile/`.
+- Added mobile login, feed, likes, comments, chat list, messages, profile, and logout flows against the existing Spring Boot API.
+- Added a configurable server URL for LAN testing and HTTPS deployments.
+
+### Security & Reliability
+- Revoked existing authenticated sessions after a successful password reset using a per-account session version.
+- Kept mobile CSRF state synchronized with the backend session rotation after login.
+
+### Web UX
+- Made the web feed comment action visibly open and close its comments section, with accessible state and focus behavior.
+
 ## [1.0.0] - 2026-11-10
 
 ### Security & Hardening

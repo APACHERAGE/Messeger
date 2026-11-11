@@ -20,7 +20,7 @@ async function load(preview) {
     external: ['react', 'react/jsx-runtime', 'lucide-react'],
     transform: { define: { 'import.meta.env.MODE': JSON.stringify(preview ? 'demo-preview' : 'test') } },
     plugins: [{ name: 'post-check-entry', resolveId(id) { if (id === 'post-check-entry') return '\0post-entry'; if (id.endsWith('.css')) return '\0empty-css' }, load(id) {
-      if (id === '\0post-entry') return `export * from ${JSON.stringify(resolve(root, 'src/api/hubApi.ts'))}; export * from ${JSON.stringify(resolve(root, 'src/api/hubMedia.ts'))}; export {apiRequest} from ${JSON.stringify(resolve(root, 'src/api/http.ts'))}; export { default as HubHome } from ${JSON.stringify(resolve(root, 'src/UserWall.tsx'))};`
+      if (id === '\0post-entry') return `export * from ${JSON.stringify(resolve(root, 'src/api/hubApi.ts'))}; export * from ${JSON.stringify(resolve(root, 'src/api/hubMedia.ts'))}; export {apiRequest} from ${JSON.stringify(resolve(root, 'src/api/http.ts'))}; export { default as HubHome } from ${JSON.stringify(resolve(root, 'src/UserWall.tsx'))}; export { default as PostCard } from ${JSON.stringify(resolve(root, 'src/PostCard.tsx'))};`
       if (id === '\0empty-css') return ''
     } }], output: { format: 'cjs' },
   })
@@ -69,6 +69,15 @@ const view = renderToStaticMarkup(React.createElement(api.HubHome, { userId: 'al
 for (const label of ['Create a post', 'Photo', 'GIF', 'Video', 'Publish post', 'Questions? Open Threads']) assert(view.includes(label), label)
 assert(!view.includes('Ask a question or share a solution'))
 assert(!view.includes('Describe an issue, bug'))
+const card = renderToStaticMarkup(React.createElement(api.PostCard, {
+  post: { ...post, id: 'ui-post', attachments: [], comments: 0, likes: 1, liked: true },
+  user: alice,
+  mode: 'local',
+  onChanged() {},
+  onDeleted() {},
+}))
+assert(card.includes('Comments'), 'Post cards expose a visible comments control')
+assert(card.includes('aria-controls="hub-comments-ui-post"'), 'Post cards identify the comments region')
 
 const requests = []
 globalThis.fetch = async (url, init = {}) => {

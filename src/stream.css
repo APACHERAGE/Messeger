@@ -20,6 +20,8 @@
 .post-wall-label { margin:10px 0 0 51px;color:var(--ui-subtle,var(--nf-758c70, #758c70));font-size:10px; }
 .stream-post .hub-post-actions { margin-left:51px; }
 .stream-post .hub-post-actions button { min-width:50px;padding:7px 0;gap:8px;color:var(--ui-muted,var(--nf-99ad94, #99ad94));font-size:11px; }
+.stream-post .hub-post-actions button.comments-open { color:var(--ui-accent,var(--nf-b2ee97, #b2ee97)); }
+.stream-post .hub-post-actions button b { font:inherit;font-weight:600; }
 .stream-post .hub-post-actions button.liked { color:var(--ui-accent,var(--nf-b2ee97, #b2ee97)); }
 .stream-post .hub-comments { padding-left:51px;font-size:12px; }
 .stream-post .hub-comment-form textarea,.stream-post .hub-edit-form textarea { color:var(--ui-text,var(--nf-dce9db, #dce9db));background:var(--ui-bg,var(--nf-0c150f, #0c150f));border-color:var(--ui-border,var(--nf-354b36, #354b36));font-size:12px; }
