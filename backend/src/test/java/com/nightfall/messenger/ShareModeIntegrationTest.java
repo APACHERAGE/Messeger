@@ -9,15 +9,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nightfall.messenger.auth.AuthUserRepository;
+import com.nightfall.messenger.auth.AuthUserEntity;
 import com.nightfall.messenger.auth.RateLimitService;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.beans.BeanUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -34,6 +37,7 @@ class ShareModeIntegrationTest {
   @Autowired ObjectMapper json;
   @Autowired AuthUserRepository users;
   @Autowired RateLimitService rateLimit;
+  @Autowired PasswordEncoder passwordEncoder;
 
   @BeforeEach
   void resetRateLimits() {
@@ -53,21 +57,23 @@ class ShareModeIntegrationTest {
   }
 
   @Test
-  void configReportsInviteOnlyAndNoEmailVerification() throws Exception {
+  void configReportsOpenRegistrationAndNoEmailVerification() throws Exception {
     mvc.perform(get("/api/auth/config"))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.inviteRequired").value(true))
+      .andExpect(jsonPath("$.inviteRequired").value(false))
       .andExpect(jsonPath("$.emailVerificationRequired").value(false))
       .andExpect(jsonPath("$.passwordResetAvailable").value(false));
   }
 
   @Test
-  void registrationNeedsTheInviteCode() throws Exception {
+  void registrationWorksWithoutAnInviteCode() throws Exception {
     String suffix = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+    String username = "x" + suffix;
     mvc.perform(post("/api/auth/register").with(csrf())
         .contentType(MediaType.APPLICATION_JSON)
-        .content(registration("x" + suffix, "x" + suffix + "@example.com", "wrong-code")))
-      .andExpect(status().isForbidden());
+        .content(registration(username, username + "@example.com", "")))
+      .andExpect(status().isAccepted());
+    assertThat(users.findByUsernameIgnoreCase(username)).isPresent();
   }
 
   @Test
@@ -90,5 +96,36 @@ class ShareModeIntegrationTest {
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.authenticated").value(true))
       .andExpect(jsonPath("$.user.username").value(username));
+
+    mvc.perform(post("/api/auth/register").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(registration(username, email, "")))
+      .andExpect(status().isConflict())
+      .andExpect(jsonPath("$.message").value("This email is already registered. Sign in instead."));
+  }
+
+  @Test
+  void switchingOffEmailVerificationCannotClaimPendingAccount() throws Exception {
+    String suffix = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+    String email = "pending" + suffix + "@example.com";
+    AuthUserEntity pending = BeanUtils.instantiateClass(AuthUserEntity.class);
+    pending.id = UUID.randomUUID().toString();
+    pending.firstName = "Original";
+    pending.lastName = "Owner";
+    pending.username = "original" + suffix;
+    pending.email = email;
+    pending.passwordHash = passwordEncoder.encode("original-password");
+    pending.emailVerified = false;
+    users.save(pending);
+
+    mvc.perform(post("/api/auth/register").with(csrf())
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(registration("claim" + suffix, email, "friend-code")))
+      .andExpect(status().isConflict());
+
+    AuthUserEntity unchanged = users.findByEmailIgnoreCase(email).orElseThrow();
+    assertThat(unchanged.emailVerified).isFalse();
+    assertThat(unchanged.username).isEqualTo("original" + suffix);
+    assertThat(passwordEncoder.matches("original-password", unchanged.passwordHash)).isTrue();
   }
 }

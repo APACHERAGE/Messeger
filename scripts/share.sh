@@ -8,6 +8,7 @@
 #
 # The instance is invite-only; the generated code is printed at startup.
 set -euo pipefail
+umask 077
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
@@ -54,6 +55,12 @@ if [[ "$MAIL_MODE" == "smtp" ]]; then
   for setting in NIGHTFALL_MAIL_FROM NIGHTFALL_SMTP_HOST NIGHTFALL_SMTP_USERNAME NIGHTFALL_SMTP_PASSWORD; do
     [[ -n "${!setting:-}" ]] || fail "Set $setting before enabling SMTP."
   done
+  if [[ "$NIGHTFALL_SMTP_HOST" == "smtp.gmail.com" ]]; then
+    # Google's UI may display the 16-character app password in groups.
+    NIGHTFALL_SMTP_PASSWORD="${NIGHTFALL_SMTP_PASSWORD//[[:space:]]/}"
+    export NIGHTFALL_SMTP_PASSWORD
+    [[ ${#NIGHTFALL_SMTP_PASSWORD} -eq 16 ]] || fail "Gmail needs a 16-character app password from Google Account → Security → App passwords. The regular Google password will not work."
+  fi
 elif [[ "$MAIL_MODE" != "disabled" && "$MAIL_MODE" != "console" ]]; then
   fail "NIGHTFALL_MAIL_MODE must be disabled, console, or smtp."
 elif [[ "$EMAIL_VERIFICATION" != "off" && "$MAIL_MODE" == "disabled" ]]; then
@@ -61,6 +68,9 @@ elif [[ "$EMAIL_VERIFICATION" != "off" && "$MAIL_MODE" == "disabled" ]]; then
 fi
 if [[ "$MAIL_MODE" == "console" ]]; then
   EMAIL_VERIFICATION="required"
+fi
+if [[ "$MODE" != "lan" && "$MAIL_MODE" != "smtp" ]]; then
+  fail "Public sharing requires SMTP and email verification. Configure .share/mail.env, then run again."
 fi
 
 if [[ -z "$INVITE" ]]; then
@@ -100,11 +110,12 @@ fi
 
 say "Starting Nightfall on 127.0.0.1:$PORT"
 : > "$PUBLIC_URL_FILE"
-env \
+env -u DEBUG \
   SPRING_PROFILES_ACTIVE=share \
   SERVER_PORT="$PORT" \
   NIGHTFALL_BIND="$BIND" \
   NIGHTFALL_INVITE_CODE="$INVITE" \
+  NIGHTFALL_INVITE_REQUIRED="${NIGHTFALL_INVITE_REQUIRED:-false}" \
   NIGHTFALL_EMAIL_VERIFICATION="$EMAIL_VERIFICATION" \
   NIGHTFALL_MAIL_MODE="$MAIL_MODE" \
   NIGHTFALL_SMTP_AUTH="${NIGHTFALL_SMTP_AUTH:-$([[ "$MAIL_MODE" == "smtp" ]] && printf true || printf false)}" \
@@ -127,7 +138,7 @@ cleanup() {
   wait "$BACKEND_PID" 2>/dev/null || true
   wait "${TUNNEL_PID:-0}" 2>/dev/null || true
 }
-trap cleanup EXIT INT TERM
+trap cleanup EXIT INT TERM HUP
 
 say "Waiting for the API"
 READY=0

@@ -49,7 +49,17 @@ public class AuthService {
     AuthUserEntity user = users.findByEmailIgnoreCase(email).orElse(null);
 
     if (user != null && user.emailVerified) {
+      if (!settings.emailVerificationRequired()) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT,
+          "This email is already registered. Sign in instead.");
+      }
       return;
+    }
+    if (user != null && !settings.emailVerificationRequired()) {
+      // A pending account may have been created while email verification was
+      // enabled. Disabling mail must not let a new request claim that identity.
+      throw new ResponseStatusException(HttpStatus.CONFLICT,
+        "This email has an unfinished registration. Contact the site owner to complete it.");
     }
     if (user == null && users.existsByUsernameIgnoreCase(username)) {
       throw new ResponseStatusException(HttpStatus.CONFLICT, "This username is already taken.");
@@ -80,14 +90,6 @@ public class AuthService {
       candidate.id = UUID.randomUUID().toString();
       candidate.emailVerified = !settings.emailVerificationRequired();
       user = users.save(candidate);
-    } else if (!settings.emailVerificationRequired()) {
-      // The private no-email mode activates accounts immediately.
-      user.firstName = candidate.firstName;
-      user.lastName = candidate.lastName;
-      user.username = candidate.username;
-      user.passwordHash = candidate.passwordHash;
-      user.emailVerified = true;
-      users.save(user);
     }
     if (!settings.emailVerificationRequired()) {
       verifications.deleteAll(verifications.findByUserId(user.id));

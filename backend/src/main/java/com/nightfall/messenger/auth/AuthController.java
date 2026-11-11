@@ -76,14 +76,23 @@ public class AuthController {
     @NotBlank @Size(min = 10, max = 72) String confirmPassword,
     @Size(max = 128) String inviteCode
   ) {
+    @Override
+    public String toString() {
+      return "RegisterRequest[redacted]";
+    }
+
     @AssertTrue(message = "Passwords do not match.")
     public boolean isPasswordConfirmationValid() {
       return password != null && password.equals(confirmPassword);
     }
   }
 
-  public record LoginRequest(@NotBlank @Size(max = 254) String identifier, @NotBlank @Size(max = 72) String password) {}
-  public record VerifyRequest(@NotBlank @Size(max = 128) String token, @NotBlank @Size(min = 10, max = 72) String password) {}
+  public record LoginRequest(@NotBlank @Size(max = 254) String identifier, @NotBlank @Size(max = 72) String password) {
+    @Override public String toString() { return "LoginRequest[redacted]"; }
+  }
+  public record VerifyRequest(@NotBlank @Size(max = 128) String token, @NotBlank @Size(min = 10, max = 72) String password) {
+    @Override public String toString() { return "VerifyRequest[redacted]"; }
+  }
   public record ResendVerificationRequest(@NotBlank @Email @Size(max = 254) String email) {}
   public record InviteRequest(@NotBlank @Email @Size(max = 254) String email) {}
   public record PasswordResetRequest(@NotBlank @Size(max = 254) String identifier) {}
@@ -91,7 +100,9 @@ public class AuthController {
     @NotBlank @Size(max = 128) String token,
     @NotBlank @Size(min = 10, max = 72) String password,
     @NotBlank @Size(min = 10, max = 72) String confirmPassword
-  ) {}
+  ) {
+    @Override public String toString() { return "PasswordResetConfirm[redacted]"; }
+  }
   public record AuthUser(String id, String firstName, String lastName, String username, String email) {}
   public record SessionResponse(boolean authenticated, AuthUser user) {}
   public record MessageResponse(String message) {}

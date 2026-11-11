@@ -21,17 +21,7 @@
 		{
 			"label": "Nightfall: public link",
 			"type": "shell",
-			"command": "/tmp/vscode-agent-codex-sandbox-Ckhycl/cloudflared",
-			"args": [
-				"tunnel",
-				"--url",
-				"http://127.0.0.1:5173",
-				"--http-host-header",
-				"localhost",
-				"--protocol",
-				"http2",
-				"--no-autoupdate"
-			],
+			"command": "${workspaceFolder}/scripts/public-terminal.sh",
 			"isBackground": true,
 			"problemMatcher": []
 		}

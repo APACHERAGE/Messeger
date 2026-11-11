@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class AuthSettings {
   private final boolean emailVerificationRequired;
   private final String inviteCode;
+  private final boolean inviteRequired;
   private final boolean passwordResetAvailable;
   private final boolean consoleMail;
   private final boolean smtpMail;
@@ -18,10 +19,15 @@ public class AuthSettings {
   public AuthSettings(
     @Value("${app.auth.email-verification:required}") String emailVerification,
     @Value("${app.auth.invite-code:}") String inviteCode,
+    @Value("${app.auth.invite-required:false}") boolean inviteRequired,
     @Value("${app.mail.mode:disabled}") String mailMode
   ) {
     this.emailVerificationRequired = !"off".equalsIgnoreCase(emailVerification == null ? "" : emailVerification.trim());
     this.inviteCode = inviteCode == null ? "" : inviteCode.trim();
+    if (inviteRequired && this.inviteCode.isEmpty()) {
+      throw new IllegalArgumentException("Invite-only registration needs an invite code.");
+    }
+    this.inviteRequired = inviteRequired;
     this.passwordResetAvailable = "smtp".equalsIgnoreCase(mailMode) || "console".equalsIgnoreCase(mailMode);
     this.consoleMail = "console".equalsIgnoreCase(mailMode);
     this.smtpMail = "smtp".equalsIgnoreCase(mailMode);
@@ -32,7 +38,7 @@ public class AuthSettings {
   }
 
   public boolean inviteRequired() {
-    return !inviteCode.isEmpty();
+    return inviteRequired;
   }
 
   public boolean passwordResetAvailable() {
@@ -44,7 +50,7 @@ public class AuthSettings {
   }
 
   public boolean invitationsAvailable() {
-    return inviteRequired() && smtpMail;
+    return !inviteCode.isEmpty() && smtpMail;
   }
 
   public String inviteCode() {

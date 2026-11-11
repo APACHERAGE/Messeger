@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 @SpringBootTest(properties = {
   "app.auth.invite-code=friend-code",
+  "app.auth.invite-required=true",
   "app.auth.email-verification=off",
   "app.mail.mode=smtp",
   "spring.datasource.url=jdbc:h2:mem:nightfall-invite-test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"
@@ -47,6 +48,7 @@ class InvitationIntegrationTest {
   void invitationNeedsLoginAndSendsToRequestedEmail() throws Exception {
     mvc.perform(get("/api/auth/config"))
       .andExpect(status().isOk())
+      .andExpect(jsonPath("$.inviteRequired").value(true))
       .andExpect(jsonPath("$.invitationsAvailable").value(true));
 
     mvc.perform(post("/api/auth/invite").with(csrf())

@@ -1,5 +1,7 @@
 # Nightfall Dev Board
 
+Current source version: **1.0.0**. See the [user manual](./USER_MANUAL.md), [version history](./VERSION_HISTORY.md), and [change log](./CHANGELOG.md).
+
 Nightfall is a responsive community app built with React, TypeScript, Vite, and a Spring Boot API. Home and the personal profile are one page: identity and status at the top, About, skills and repositories beneath, and a wall below. `/profile` is a compatible alias for `/`. Profile editing and settings open in a dialog over the same Home page, preserving its wall and draft state. Threads, channels, messages, mail, and people remain separate workspace sections.
 
 ## Personal and general walls
@@ -100,7 +102,7 @@ Open the local URL printed by Vite. If the backend is unavailable, the app uses 
 
 ## Share with friends
 
-`scripts/share.sh` builds the frontend and backend, serves both from one process, and opens a public HTTPS tunnel. Registration is invite-only. With SMTP configured, it also emails invitations and welcome/verification links.
+`scripts/share.sh` builds the frontend and backend, serves both from one process, and opens a public HTTPS tunnel. Registration is open by default: an invitation link helps a friend reach the form, but no invite code is required. Public tunnel modes require SMTP and email verification; LAN mode can run without mail for private testing. Operators can explicitly enable code-gated registration with `NIGHTFALL_INVITE_REQUIRED=true`.
 
 ```bash
 ./scripts/share.sh             # Tailscale Funnel first, Cloudflare Quick Tunnel as fallback
@@ -109,9 +111,11 @@ Open the local URL printed by Vite. If the backend is unavailable, the app uses 
 ./scripts/share.sh lan         # same Wi-Fi or tailnet, http://<local-ip>:8080
 ```
 
-The script prints the URL and an invite code. Signed-in members can use **Mail → Invite by email** to send a registration link. The code is saved privately in `.share/invite-code` so restart does not invalidate existing invitations. By default accounts and messages live in `.share/nightfall.mv.db`, logs in `.share/logs/`. Override defaults with `NIGHTFALL_INVITE_CODE`, `NIGHTFALL_PORT`, `NIGHTFALL_DATA_DIR`, or `NIGHTFALL_DB_PATH`.
+The script prints the URL and an optional invite code. Signed-in members can use **Mail → Invite by email** to send a registration link. The code is saved privately in `.share/invite-code` so links survive a restart if code-gated registration is later enabled. By default accounts and messages live in `.share/nightfall.mv.db`, logs in `.share/logs/`. On this machine, private `.share/mail.env` sets `NIGHTFALL_DB_PATH` to the existing `backend/nightfall.mv.db`, shared with local development. Override defaults with `NIGHTFALL_INVITE_CODE`, `NIGHTFALL_PORT`, `NIGHTFALL_DATA_DIR`, or `NIGHTFALL_DB_PATH`.
 
-The Tailscale URL stays the same while the machine and tailnet remain online. The Cloudflare Quick Tunnel URL changes after each restart; previously emailed links then need to be resent. Without SMTP, new accounts are active immediately and password reset is unavailable. With SMTP, email verification is required. Back up the H2 file while the app is stopped.
+If the `nightfall-local` user service is already running on this machine, run `./scripts/public-terminal.sh` instead. It stops that local service before opening the public tunnel and restores it when public sharing stops or startup fails. The VS Code task **Nightfall: public link** uses the same launcher.
+
+The Tailscale URL stays the same while the machine and tailnet remain online. The Cloudflare Quick Tunnel URL changes after each restart; previously emailed links then need to be resent. In private LAN mode without SMTP, new accounts are active immediately and password reset is unavailable. With SMTP, email verification is required. Back up the H2 file while the app is stopped.
 
 The first `tailscale` run can print a one-click link to enable Funnel for this machine; after that the same URL works across restarts. If `*.trycloudflare.com` does not resolve on this computer, a local DNS filter is blocking it — friends on normal DNS are usually unaffected, and Tailscale Funnel gives a stable URL that resolves locally. Set `NIGHTFALL_TAILSCALE_PORT=443` if you prefer a URL without `:8443`.
 
@@ -148,7 +152,7 @@ mvn spring-boot:run
 
 `NIGHTFALL_PUBLIC_URL` must match the browser URL printed by Vite. Do not post or commit SMTP credentials.
 
-For this machine, `.share/mail.env` already contains the sender `apache.desktop@gmail.com`, Gmail's SMTP host, and the existing local database path. Start `./scripts/share.sh` from an interactive terminal; the script privately prompts for a **Google app password** when needed. Enable two-step verification on that Google account and generate an app password in Google Account settings. Enter the app password only in the local terminal; do not use your ordinary Google password or put either password in this repository or chat. The password is kept in the process environment for that run. This configuration has not sent a real email until the password is entered and an invitation or registration is tested.
+For this machine, `.share/mail.env` already contains the sender `apache.desktop@gmail.com`, Gmail's SMTP host, and the existing local database path. Start `./scripts/public-terminal.sh` from an interactive terminal; the script privately prompts for a **Google app password** when needed. Enable two-step verification on that Google account and generate a 16-character app password at [Google Account → App passwords](https://myaccount.google.com/apppasswords). Enter it only in the local terminal; do not use your ordinary Google password or put either password in this repository or chat. The password is kept in the process environment for that run. This configuration has not sent a real email until the password is entered and an invitation or registration is tested.
 
 The app's `username@nf.com` mailbox is internal Nightfall messaging. External invitations, welcome messages, and password resets use SMTP and the sender configured above.
 
@@ -168,4 +172,4 @@ Attachments are validated by declared type, decoded size, and file signature bef
 
 The app polls the open chat every five seconds. Messages are merged by ID so pagination survives refresh; a WebSocket/SSE transport is the next scalability step.
 
-This is an early prototype and is not ready for public deployment. H2 with `ddl-auto=update` is intended for development only. A production launch needs a managed database with migrations, HTTPS, `NIGHTFALL_COOKIE_SECURE=true`, a shared rate-limit store, object storage for attachments, and a reviewed mail-provider configuration. Authentication, mail delivery, and attachment validation are covered by `backend/src/test`; run both suites in CI (`.github/workflows/ci.yml`).
+This single-machine setup can be shared with invited friends through the HTTPS tunnel above. It is not a production-scale service. H2 with `ddl-auto=update` is intended for development; a persistent public service needs a managed database with migrations, a shared rate-limit store, object storage for attachments, backups, and a reviewed mail-provider configuration. Authentication, mail message construction, and attachment validation are covered by `backend/src/test`; real delivery still requires a live SMTP check.
